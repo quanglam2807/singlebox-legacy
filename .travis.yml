@@ -7,7 +7,7 @@ before_script:
 - yarn lint
 script:
 - yarn dist
-- yarn catalog:install && yarn catalog:test; fi
+- yarn catalog:install && yarn catalog:test
 - if [ "$TRAVIS_BRANCH" == "master" -a "$TRAVIS_PULL_REQUEST" == "false" ]; then yarn catalog:pack && yarn catalog:publish; fi
 notifications:
   email: false
