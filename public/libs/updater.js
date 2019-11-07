@@ -47,6 +47,10 @@ autoUpdater.on('error', (err) => {
   }
 
   sendToAllWindows('log', err);
+  createMenu();
+});
+
+autoUpdater.on('update-cancelled', () => {
   global.updaterProgressObj = null;
   createMenu();
 });
