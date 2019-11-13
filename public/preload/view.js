@@ -160,6 +160,7 @@ window.onload = () => {
 webFrame.executeJavaScript(`
 window.chrome = {
   runtime: {
+    sendMessage: () => {},
     connect: () => {
       return {
         onMessage: {
