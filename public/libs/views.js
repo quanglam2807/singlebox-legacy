@@ -130,7 +130,7 @@ const addView = (browserWindow, workspace) => {
     }
 
     // open new window normally if domain is not defined or same domain (about:)
-    if (nextDomain === null || nextDomain === curDomain) {
+    if (nextDomain === null || nextDomain === curDomain || nextUrl.indexOf('oauth') > -1) {
       e.preventDefault();
       const popupWin = new BrowserWindow({
         width: 500,
