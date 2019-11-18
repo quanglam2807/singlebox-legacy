@@ -31,7 +31,7 @@ const opts = {
     },
     afterSign: (context) => {
       const shouldNotarize = context.electronPlatformName === 'darwin' && (
-        process.env.TRAVIS_PULL_REQUEST === 'false'
+        process.env.CI_PULL_REQUEST === 'false'
         || process.env.CSC_FOR_PULL_REQUEST === 'true');
       if (!shouldNotarize) return null;
 
