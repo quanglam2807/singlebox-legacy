@@ -43,6 +43,7 @@ jobs:
       env:
         ALGOLIA_APPLICATION_ID: ${{ secrets.ALGOLIA_APPLICATION_ID }}
         ALGOLIA_ADMIN_KEY: ${{ secrets.ALGOLIA_ADMIN_KEY }}
+      if: github.event_name != 'pull_request'
     - name: Upload icons to S3
       uses: jakejarvis/s3-sync-action@v0.5.0
       with:
@@ -54,3 +55,4 @@ jobs:
         AWS_REGION: 'us-east-1'
         SOURCE_DIR: 'catalog/dist'
         DEST_DIR: 'apps'
+      if: github.event_name != 'pull_request'
