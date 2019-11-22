@@ -32,6 +32,7 @@ const createAsync = () => {
       browserWindow: {
         webPreferences: {
           nodeIntegration: true,
+          preload: path.join(__dirname, '..', 'preload', 'menubar.js'),
         },
       },
     });
