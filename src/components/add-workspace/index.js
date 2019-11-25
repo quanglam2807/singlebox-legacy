@@ -126,7 +126,6 @@ class AddWorkspace extends React.Component {
                 url={app.url}
                 icon={app.icon}
                 icon128={app.icon128}
-                mailtoHandler={app.mailtoHandler}
               />
             ))}
             {!isGetting && <SubmitAppCard />}
