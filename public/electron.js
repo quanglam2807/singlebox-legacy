@@ -12,6 +12,8 @@ const { addView } = require('./libs/views');
 const { getPreference } = require('./libs/preferences');
 const { getWorkspaces } = require('./libs/workspaces');
 
+const MAILTO_URLS = require('./constants/mailto-urls');
+
 require('./libs/updater');
 
 const gotTheLock = app.requestSingleInstanceLock();
@@ -54,6 +56,7 @@ if (!gotTheLock) {
   app.on('ready', () => {
     global.attachToMenubar = getPreference('attachToMenubar');
     global.showNavigationBar = getPreference('navigationBar');
+    global.MAILTO_URLS = MAILTO_URLS;
 
     commonInit();
   });

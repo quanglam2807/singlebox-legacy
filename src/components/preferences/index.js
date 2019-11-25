@@ -51,7 +51,7 @@ const styles = (theme) => ({
 const getThemeString = (theme) => {
   if (theme === 'light') return 'Light';
   if (theme === 'dark') return 'Dark';
-  return 'Automatic';
+  return 'System default';
 };
 
 const getOpenAtLoginString = (openAtLogin) => {

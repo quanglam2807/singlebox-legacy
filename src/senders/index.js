@@ -16,7 +16,6 @@ export const requestShowAddWorkspaceWindow = () => ipcRenderer.send('request-sho
 export const requestShowCodeInjectionWindow = (type) => ipcRenderer.send('request-show-code-injection-window', type);
 export const requestShowLicenseRegistrationWindow = (type) => ipcRenderer.send('request-show-license-registration-window', type);
 
-
 // Preferences
 export const getPreference = (name) => ipcRenderer.sendSync('get-preference', name);
 export const getPreferences = () => ipcRenderer.sendSync('get-preferences');
