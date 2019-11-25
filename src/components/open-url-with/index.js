@@ -16,7 +16,7 @@ const { remote } = window.require('electron');
 
 const OpenUrlWith = ({ workspaces }) => (
   <List dense>
-    {getWorkspacesAsList(workspaces).map((workspace) => workspace.mailtoHandler && (
+    {getWorkspacesAsList(workspaces).map((workspace, i) => workspace.mailtoHandler && (
       <ListItem
         button
         onClick={() => {
@@ -29,8 +29,8 @@ const OpenUrlWith = ({ workspaces }) => (
         }}
       >
         <ListItemText
-          primary={workspace.name || `Workspace ${workspace.order + 1}`}
-          secondary={`#${workspace.order + 1}`}
+          primary={workspace.name || `Workspace ${i + 1}`}
+          secondary={`#${i + 1}`}
         />
         <ChevronRightIcon color="action" />
       </ListItem>
