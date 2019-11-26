@@ -17,7 +17,7 @@ window.ipcRenderer = ipcRenderer;
 
 window.onload = () => {
   // overwrite gmail email discard button
-  if (window.location.href.includes('mail.google.com') && window.location.href.includes('source=mailto')) {
+  if (window.location.href.startsWith('https://mail.google.com') && window.location.href.includes('source=mailto')) {
     const checkExist = setInterval(() => {
       if (document.getElementById(':qz')) {
         const discardButton = document.getElementById(':qz');
