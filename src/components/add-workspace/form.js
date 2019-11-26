@@ -88,7 +88,7 @@ const AddWorkspaceCustom = ({
 }) => (
   <div className={classes.root}>
     <EnhancedDialogTitle>
-      Add Custom App
+      Add Custom Workspace
     </EnhancedDialogTitle>
     <div>
       <TextField

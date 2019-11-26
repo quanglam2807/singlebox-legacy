@@ -182,7 +182,7 @@ class AddWorkspace extends React.Component {
           className={classes.bottomNavigation}
         >
           <BottomNavigationAction label="Catalog" value="catalog" icon={<ViewListIcon />} />
-          <BottomNavigationAction label="Add Custom App" value="custom" icon={<CreateIcon />} />
+          <BottomNavigationAction label="Custom Workspace" value="custom" icon={<CreateIcon />} />
         </BottomNavigation>
       </div>
     );
