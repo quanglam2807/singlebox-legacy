@@ -93,7 +93,7 @@ const Preferences = ({
             </ListItem>
           )}
         >
-          <MenuItem onClick={() => requestSetPreference('theme', 'automatic')}>Automatic</MenuItem>
+          <MenuItem onClick={() => requestSetPreference('theme', 'automatic')}>System default</MenuItem>
           <MenuItem onClick={() => requestSetPreference('theme', 'light')}>Light</MenuItem>
           <MenuItem onClick={() => requestSetPreference('theme', 'dark')}>Dark</MenuItem>
         </StatedMenu>
