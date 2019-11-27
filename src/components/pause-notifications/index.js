@@ -11,7 +11,7 @@ import { DateTimePicker } from 'material-ui-pickers';
 
 import connectComponent from '../../helpers/connect-component';
 
-const styles = (theme) => ({
+const styles = () => ({
   hidden: {
     display: 'none',
   },

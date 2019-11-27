@@ -16,21 +16,6 @@ window.global = {};
 window.ipcRenderer = ipcRenderer;
 
 window.onload = () => {
-  // overwrite gmail email discard button
-  if (window.location.href.startsWith('https://mail.google.com') && window.location.href.includes('source=mailto')) {
-    const checkExist = setInterval(() => {
-      if (document.getElementById(':qz')) {
-        const discardButton = document.getElementById(':qz');
-        // https://stackoverflow.com/a/46986927
-        discardButton.addEventListener('click', (e) => {
-          e.stopPropagation();
-          ipcRenderer.send('request-go-home');
-        }, true);
-        clearInterval(checkExist);
-      }
-    }, 100); // check every 100ms
-  }
-
   const jsCodeInjection = ipcRenderer.sendSync('get-preference', 'jsCodeInjection');
   const cssCodeInjection = ipcRenderer.sendSync('get-preference', 'cssCodeInjection');
 
@@ -130,40 +115,51 @@ window.onload = () => {
     }
   });
 
+  // overwrite gmail email discard button
+  if (window.location.hostname.includes('mail.google.com') && window.location.href.includes('source=mailto')) {
+    const checkExist = setInterval(() => {
+      if (document.getElementById(':qz')) {
+        const discardButton = document.getElementById(':qz');
+        // https://stackoverflow.com/a/46986927
+        discardButton.addEventListener('click', (e) => {
+          e.stopPropagation();
+          ipcRenderer.send('request-go-home');
+        }, true);
+        clearInterval(checkExist);
+      }
+    }, 100); // check every 100ms
+  }
+
   // Fix WhatsApp requires Google Chrome 49+ bug
   // https://github.com/meetfranz/recipe-whatsapp/blob/master/webview.js
-  setTimeout(() => {
-    if (!window.location.hostname.includes('web.whatsapp.com')) {
-      return;
-    }
-    const elem = document.querySelector('.landing-title.version-title');
-    if (elem && elem.innerText.toLowerCase().includes('google chrome')) {
-      window.location.reload();
-    }
-  }, 1000);
+  if (window.location.hostname.includes('web.whatsapp.com')) {
+    setTimeout(() => {
+      const elem = document.querySelector('.landing-title.version-title');
+      if (elem && elem.innerText.toLowerCase().includes('google chrome')) {
+        window.location.reload();
+      }
+    }, 1000);
 
-  window.addEventListener('beforeunload', async () => {
-    if (!window.location.hostname.includes('web.whatsapp.com')) {
-      return;
-    }
-    try {
-      const webContents = remote.getCurrentWebContents();
-      const { session } = webContents;
-      session.flushStorageData();
-      session.clearStorageData({
-        storages: ['appcache', 'serviceworkers', 'cachestorage', 'websql', 'indexdb'],
-      });
+    window.addEventListener('beforeunload', async () => {
+      try {
+        const webContents = remote.getCurrentWebContents();
+        const { session } = webContents;
+        session.flushStorageData();
+        session.clearStorageData({
+          storages: ['appcache', 'serviceworkers', 'cachestorage', 'websql', 'indexdb'],
+        });
 
-      const registrations = await window.navigator.serviceWorker.getRegistrations();
+        const registrations = await window.navigator.serviceWorker.getRegistrations();
 
-      registrations.forEach((r) => {
-        r.unregister();
-        console.log('ServiceWorker unregistered');
-      });
-    } catch (err) {
-      console.err(err);
-    }
-  });
+        registrations.forEach((r) => {
+          r.unregister();
+          console.log('ServiceWorker unregistered');
+        });
+      } catch (err) {
+        console.err(err);
+      }
+    });
+  }
 };
 
 // Fix Can't show file list of Google Drive
@@ -193,4 +189,14 @@ window.electronSafeIpc = {
   on: () => null,
 };
 window.desktop = undefined;
+
+// Customize Notification behavior
+// https://stackoverflow.com/questions/53390156/how-to-override-javascript-web-api-notification-object
+(function() {
+  const oldNotification = window.Notification;
+  window.Notification = function() {
+    return new oldNotification(...arguments);
+  }
+  Notification.requestPermission = oldNotification.requestPermission;
+})();
 `);
