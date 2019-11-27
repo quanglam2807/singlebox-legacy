@@ -43,6 +43,7 @@ const editWorkspaceWindow = require('../windows/edit-workspace');
 const licenseRegistrationWindow = require('../windows/license-registration');
 const mainWindow = require('../windows/main');
 const preferencesWindow = require('../windows/preferences');
+const pauseNotificationsWindow = require('../windows/pause-notifications');
 
 const loadListeners = () => {
   ipcMain.on('request-open-in-browser', (e, url) => {
@@ -145,6 +146,10 @@ const loadListeners = () => {
 
   ipcMain.on('request-show-license-registration-window', () => {
     licenseRegistrationWindow.show();
+  });
+
+  ipcMain.on('request-show-pause-notifications-window', () => {
+    pauseNotificationsWindow.show();
   });
 
   ipcMain.on('request-show-require-restart-dialog', () => {

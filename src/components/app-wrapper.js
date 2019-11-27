@@ -8,6 +8,9 @@ import blue from '@material-ui/core/colors/blue';
 import grey from '@material-ui/core/colors/grey';
 import pink from '@material-ui/core/colors/pink';
 
+import { MuiPickersUtilsProvider } from 'material-ui-pickers';
+import DateFnsUtils from '@date-io/date-fns';
+
 import connectComponent from '../helpers/connect-component';
 
 import { updateIsDarkMode, updateIsFullScreen } from '../state/general/actions';
@@ -97,7 +100,9 @@ class AppWrapper extends React.Component {
 
     return (
       <MuiThemeProvider theme={theme}>
-        {children}
+        <MuiPickersUtilsProvider utils={DateFnsUtils}>
+          {children}
+        </MuiPickersUtilsProvider>
       </MuiThemeProvider>
     );
   }

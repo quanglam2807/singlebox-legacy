@@ -6,7 +6,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 
-import SettingsIcon from '@material-ui/icons/SettingsSharp';
+import NotificationsIcon from '@material-ui/icons/Notifications';
 
 import { sortableContainer, sortableElement } from 'react-sortable-hoc';
 
@@ -27,7 +27,7 @@ import {
   requestShowAddWorkspaceWindow,
   requestShowEditWorkspaceWindow,
   requestShowLicenseRegistrationWindow,
-  requestShowPreferencesWindow,
+  requestShowPauseNotificationsWindow,
 } from '../../senders';
 
 const { remote } = window.require('electron');
@@ -209,8 +209,8 @@ const Main = ({
           </div>
           {!navigationBar && (
           <div className={classes.end}>
-            <IconButton aria-label="Preferences" onClick={requestShowPreferencesWindow}>
-              <SettingsIcon />
+            <IconButton aria-label="Notifications" onClick={requestShowPauseNotificationsWindow} className={classes.iconButton}>
+              <NotificationsIcon />
             </IconButton>
           </div>
           )}
