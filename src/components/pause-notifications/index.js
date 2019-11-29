@@ -7,26 +7,68 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Divider from '@material-ui/core/Divider';
 
+import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+
 import { DateTimePicker } from 'material-ui-pickers';
 
 import connectComponent from '../../helpers/connect-component';
 
+import { shouldPauseNotifications as shouldPauseNotificationsFunc } from '../../state/preferences/utils';
+
+// https://www.sketchappsources.com/free-source/2501-iphone-app-background-sketch-freebie-resource.html
+import nightBackgroundPng from '../../images/night-background.png';
+
 const styles = () => ({
   hidden: {
     display: 'none',
+  },
+  root: {
+    padding: 0,
+  },
+  pausingHeader: {
+    background: `url(${nightBackgroundPng})`,
+    height: 210,
+    backgroundSize: 400,
+    alignItems: 'flex-end',
   },
 });
 
 const DialogPauseNotifications = (props) => {
   const {
     classes,
+    shouldPauseNotifications,
   } = props;
 
   // https://material-ui-pickers-v2.dmtr-kovalenko.now.sh/guides/controlling-programmatically
   const pickerRef = React.useRef(null);
 
+  if (shouldPauseNotifications) {
+    return (
+      <List
+        component="nav"
+        className={classes.root}
+      >
+        <ListItem classes={{ root: classes.pausingHeader }}>
+          <ListItemText primary="Notifications paused until 9:00 PM" />
+        </ListItem>
+        <ListItem button>
+          <ListItemText primary="Resume notifications" />
+        </ListItem>
+        <Divider />
+        <ListItem button>
+          <ListItemText primary="Adjust time" />
+          <ChevronRightIcon color="action" />
+        </ListItem>
+        <Divider />
+        <ListItem button>
+          <ListItemText primary="Pause notifications by schedule..." />
+        </ListItem>
+      </List>
+    );
+  }
+
   return (
-    <div>
+    <>
       <List
         component="nav"
         subheader={<ListSubheader component="div">Pause notifications</ListSubheader>}
@@ -71,7 +113,7 @@ const DialogPauseNotifications = (props) => {
         </ListItem>
         <Divider />
         <ListItem button>
-          <ListItemText primary="Do Not Disturb schedule..." />
+          <ListItemText primary="Pause notifications by schedule..." />
         </ListItem>
       </List>
       <DateTimePicker
@@ -83,7 +125,7 @@ const DialogPauseNotifications = (props) => {
         disablePast
         showTodayButton
       />
-    </div>
+    </>
   );
 };
 
@@ -91,9 +133,12 @@ DialogPauseNotifications.defaultProps = {};
 
 DialogPauseNotifications.propTypes = {
   classes: PropTypes.object.isRequired,
+  shouldPauseNotifications: PropTypes.bool.isRequired,
 };
 
-const mapStateToProps = () => ({});
+const mapStateToProps = (state) => ({
+  shouldPauseNotifications: shouldPauseNotificationsFunc(state),
+});
 
 const actionCreators = {};
 
