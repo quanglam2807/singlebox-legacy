@@ -149,7 +149,7 @@ window.onload = () => {
 
         registrations.forEach((r) => {
           r.unregister();
-          console.log('ServiceWorker unregistered');  // eslint-disable-line no-console
+          console.log('ServiceWorker unregistered'); // eslint-disable-line no-console
         });
       } catch (err) {
         console.err(err); // eslint-disable-line no-console
