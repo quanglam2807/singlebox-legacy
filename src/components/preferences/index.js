@@ -275,7 +275,7 @@ const Preferences = ({
                 requestSetPreference('downloadPath', result.filePaths[0]);
               }
             }).catch((err) => {
-              console.log(err);
+              console.log(err); // eslint-disable-line no-console
             });
           }}
         >

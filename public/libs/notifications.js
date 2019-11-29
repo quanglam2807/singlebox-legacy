@@ -119,7 +119,6 @@ const updatePauseNotificationsInfo = () => {
   pauseNotificationsInfo = calcPauseNotificationsInfo();
 
   // Send update to webview
-  console.log(pauseNotificationsInfo);
   const shouldPauseNotifications = pauseNotificationsInfo !== null;
   const views = mainWindow.get().getBrowserViews();
   if (views) {

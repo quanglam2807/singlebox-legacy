@@ -21,8 +21,7 @@ const { ipcRenderer } = window.require('electron');
 
 const loadListeners = (store) => {
   ipcRenderer.on('log', (e, message) => {
-    // eslint-disable-next-line
-    if (message) console.log(message);
+    if (message) console.log(message); // eslint-disable-line no-console
   });
 
   ipcRenderer.on('set-preference', (e, name, value) => {

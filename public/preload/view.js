@@ -25,9 +25,7 @@ window.onload = () => {
       node.innerHTML = jsCodeInjection;
       document.body.appendChild(node);
     } catch (err) {
-      /* eslint-disable no-console */
-      console.log(err);
-      /* eslint-enable no-console */
+      console.log(err); // eslint-disable-line no-console
     }
   }
 
@@ -37,9 +35,7 @@ window.onload = () => {
       node.innerHTML = cssCodeInjection;
       document.body.appendChild(node);
     } catch (err) {
-      /* eslint-disable no-console */
-      console.log(err);
-      /* eslint-enable no-console */
+      console.log(err); // eslint-disable-line no-console
     }
   }
 
@@ -153,10 +149,10 @@ window.onload = () => {
 
         registrations.forEach((r) => {
           r.unregister();
-          console.log('ServiceWorker unregistered');
+          console.log('ServiceWorker unregistered');  // eslint-disable-line no-console
         });
       } catch (err) {
-        console.err(err);
+        console.err(err); // eslint-disable-line no-console
       }
     });
   }
@@ -165,7 +161,6 @@ window.onload = () => {
 // Communicate with the frame
 // Have to use this weird trick because contextIsolation: true
 ipcRenderer.on('should-pause-notifications-changed', (e, val) => {
-  console.log(val);
   window.postMessage({ type: 'should-pause-notifications-changed', val });
 });
 
@@ -208,7 +203,6 @@ window.desktop = undefined;
   window.addEventListener('message', function(e) {
     if (!e.data || e.data.type !== 'should-pause-notifications-changed') return;
     shouldPauseNotifications = e.data.val;
-    console.log(shouldPauseNotifications);
   });
 
   window.Notification = function() {
