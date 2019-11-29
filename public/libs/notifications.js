@@ -1,9 +1,13 @@
-export const getCurrentScheduledDateTime = (state) => {
-  const {
-    pauseNotificationsBySchedule,
-    pauseNotificationsByScheduleFrom,
-    pauseNotificationsByScheduleTo,
-  } = state.preferences;
+const mainWindow = require('../windows/main');
+const { getPreference } = require('./preferences');
+const sendToAllWindows = require('./send-to-all-windows');
+
+let pauseNotificationsInfo;
+
+const getCurrentScheduledDateTime = () => {
+  const pauseNotificationsBySchedule = getPreference('pauseNotificationsBySchedule');
+  const pauseNotificationsByScheduleFrom = getPreference('pauseNotificationsByScheduleFrom');
+  const pauseNotificationsByScheduleTo = getPreference('pauseNotificationsByScheduleTo');
 
   if (!pauseNotificationsBySchedule) return null;
 
@@ -64,10 +68,10 @@ export const getCurrentScheduledDateTime = (state) => {
 };
 
 // return reason why notifications are paused
-export const getPauseNotificationsInfo = (state) => {
-  const { pauseNotifications } = state.preferences;
+const calcPauseNotificationsInfo = () => {
+  const pauseNotifications = getPreference('pauseNotifications');
 
-  const schedule = getCurrentScheduledDateTime(state);
+  const schedule = getCurrentScheduledDateTime();
 
   const currentDate = new Date();
 
@@ -105,4 +109,66 @@ export const getPauseNotificationsInfo = (state) => {
   return null;
 };
 
-export const shouldPauseNotifications = (state) => getPauseNotificationsInfo(state) !== null;
+let timeouts = [];
+let updating = false;
+const updatePauseNotificationsInfo = () => {
+  // avoid multiple timeouts running at the same time
+  if (updating) return;
+  updating = true;
+
+  pauseNotificationsInfo = calcPauseNotificationsInfo();
+
+  // Send update to webview
+  console.log(pauseNotificationsInfo);
+  const shouldPauseNotifications = pauseNotificationsInfo !== null;
+  const views = mainWindow.get().getBrowserViews();
+  if (views) {
+    views.forEach((view) => {
+      view.webContents.send('should-pause-notifications-changed', shouldPauseNotifications);
+    });
+  }
+  sendToAllWindows('should-pause-notifications-changed', pauseNotificationsInfo);
+
+  // set schedule for reupdating
+  const pauseNotifications = getPreference('pauseNotifications');
+  const schedule = getCurrentScheduledDateTime();
+
+  // clear old timeouts
+  timeouts.forEach((timeout) => {
+    clearTimeout(timeout);
+  });
+
+  timeouts = [];
+
+  // create new update timeout
+  const addTimeout = (d) => {
+    const t = new Date(d).getTime() - new Date().getTime();
+    if (t > 0) {
+      const newTimeout = setTimeout(() => {
+        updatePauseNotificationsInfo();
+      }, t);
+      timeouts.push(newTimeout);
+    }
+  };
+  if (pauseNotifications) {
+    if (pauseNotifications.startsWith('resume:')) {
+      addTimeout(new Date(pauseNotifications.substring(7)));
+    }
+    if (pauseNotifications.startsWith('pause:')) {
+      addTimeout(new Date(pauseNotifications.substring(6)));
+    }
+  }
+  if (schedule) {
+    addTimeout(schedule.from);
+    addTimeout(schedule.to);
+  }
+
+  updating = false;
+};
+
+const getPauseNotificationsInfo = () => pauseNotificationsInfo;
+
+module.exports = {
+  updatePauseNotificationsInfo,
+  getPauseNotificationsInfo,
+};

@@ -70,39 +70,39 @@ const DialogPauseNotifications = (props) => {
   const quickShortcuts = [
     {
       name: '15 minutes',
-      calcDate: (d) => addMinutes(d, 15),
+      calcDate: () => addMinutes(new Date(), 15),
     },
     {
       name: '30 minutes',
-      calcDate: (d) => addMinutes(d, 30),
+      calcDate: () => addMinutes(new Date(), 30),
     },
     {
       name: '1 hour',
-      calcDate: (d) => addHours(d, 1),
+      calcDate: () => addHours(new Date(), 1),
     },
     {
       name: '2 hours',
-      calcDate: (d) => addHours(d, 2),
+      calcDate: () => addHours(new Date(), 2),
     },
     {
       name: '4 hours',
-      calcDate: (d) => addHours(d, 4),
+      calcDate: () => addHours(new Date(), 4),
     },
     {
       name: '8 hours',
-      calcDate: (d) => addHours(d, 8),
+      calcDate: () => addHours(new Date(), 8),
     },
     {
       name: '12 hours',
-      calcDate: (d) => addHours(d, 12),
+      calcDate: () => addHours(new Date(), 12),
     },
     {
       name: 'Unitl tommorow',
-      calcDate: (d) => addDays(d, 1),
+      calcDate: () => addDays(new Date(), 1),
     },
     {
       name: 'Until next week',
-      calcDate: (d) => addWeeks(d, 1),
+      calcDate: () => addWeeks(new Date(), 1),
     },
   ];
 
@@ -125,7 +125,7 @@ const DialogPauseNotifications = (props) => {
         >
           <ListItem classes={{ root: classes.pausingHeader }}>
             <ListItemText
-              primary={`Notifications paused until ${formatDate(pauseNotificationsInfo.tilDate)}.`}
+              primary={`Notifications paused until ${formatDate(new Date(pauseNotificationsInfo.tilDate))}.`}
             />
           </ListItem>
           <ListItem button>
@@ -133,10 +133,10 @@ const DialogPauseNotifications = (props) => {
               primary="Resume notifications"
               onClick={() => {
                 if (pauseNotificationsInfo.reason === 'scheduled') {
-                  requestSetPreference('pauseNotifications', `resume:${pauseNotificationsInfo.tilDate.toString()}`);
+                  requestSetPreference('pauseNotifications', `resume:${pauseNotificationsInfo.tilDate}`);
                 } else if (pauseNotificationsInfo.schedule
-                  && pauseNotificationsInfo.tilDate < pauseNotificationsInfo.schedule.to) {
-                  requestSetPreference('pauseNotifications', `resume:${pauseNotificationsInfo.schedule.to.toString()}`);
+                  && new Date() < new Date(pauseNotificationsInfo.schedule.to)) {
+                  requestSetPreference('pauseNotifications', `resume:${pauseNotificationsInfo.schedule.to}`);
                 } else {
                   requestSetPreference('pauseNotifications', null);
                 }
@@ -163,7 +163,7 @@ const DialogPauseNotifications = (props) => {
                 {quickShortcuts.map((shortcut) => (
                   <MenuItem
                     key={shortcut.name}
-                    onClick={() => pauseNotif(shortcut.calcDate(new Date()))}
+                    onClick={() => pauseNotif(shortcut.calcDate())}
                   >
                     {shortcut.name}
                   </MenuItem>
@@ -204,7 +204,7 @@ const DialogPauseNotifications = (props) => {
           <ListItem
             button
             key={shortcut.name}
-            onClick={() => pauseNotif(shortcut.calcDate(new Date()))}
+            onClick={() => pauseNotif(shortcut.calcDate())}
           >
             <ListItemText primary={shortcut.name} />
           </ListItem>
@@ -259,7 +259,7 @@ DialogPauseNotifications.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  pauseNotificationsInfo: state.preferences.pauseNotificationsInfo,
+  pauseNotificationsInfo: state.notifications.pauseNotificationsInfo,
 });
 
 const actionCreators = {};

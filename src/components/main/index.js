@@ -273,7 +273,7 @@ const mapStateToProps = (state) => ({
   isLoading: state.general.isLoading,
   navigationBar: state.preferences.navigationBar,
   registered: state.preferences.registered,
-  shouldPauseNotifications: state.preferences.pauseNotificationsInfo !== null,
+  shouldPauseNotifications: state.notifications.pauseNotificationsInfo !== null,
   workspaces: state.workspaces,
 });
 

@@ -17,6 +17,10 @@ export const requestShowCodeInjectionWindow = (type) => ipcRenderer.send('reques
 export const requestShowLicenseRegistrationWindow = () => ipcRenderer.send('request-show-license-registration-window');
 export const requestShowPauseNotificationsWindow = () => ipcRenderer.send('request-show-notifications-window');
 
+// Notifications
+export const requestUpdatePauseNotificationsInfo = () => ipcRenderer.send('request-update-pause-notifications-info');
+export const getPauseNotificationsInfo = () => ipcRenderer.sendSync('get-pause-notifications-info');
+
 // Preferences
 export const getPreference = (name) => ipcRenderer.sendSync('get-preference', name);
 export const getPreferences = () => ipcRenderer.sendSync('get-preferences');

@@ -14,8 +14,9 @@ import DateFnsUtils from '@date-io/date-fns';
 import connectComponent from '../helpers/connect-component';
 
 import { updateIsDarkMode, updateIsFullScreen } from '../state/general/actions';
-import { updatePauseNotificationsInfo } from '../state/preferences/actions';
 import { getShouldUseDarkMode } from '../state/general/utils';
+
+import { requestUpdatePauseNotificationsInfo } from '../senders';
 
 const { remote } = window.require('electron');
 
@@ -29,8 +30,7 @@ class AppWrapper extends React.Component {
   }
 
   componentDidMount() {
-    const { onUpdatePauseNotificationsInfo } = this.props;
-    onUpdatePauseNotificationsInfo();
+    requestUpdatePauseNotificationsInfo();
 
     remote.getCurrentWindow().on('enter-full-screen', this.handleEnterFullScreen);
     remote.getCurrentWindow().on('leave-full-screen', this.handleLeaveFullScreen);
@@ -121,7 +121,6 @@ AppWrapper.propTypes = {
   shouldUseDarkMode: PropTypes.bool.isRequired,
   onUpdateIsDarkMode: PropTypes.func.isRequired,
   onUpdateIsFullScreen: PropTypes.func.isRequired,
-  onUpdatePauseNotificationsInfo: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -131,7 +130,6 @@ const mapStateToProps = (state) => ({
 const actionCreators = {
   updateIsDarkMode,
   updateIsFullScreen,
-  updatePauseNotificationsInfo,
 };
 
 export default connectComponent(

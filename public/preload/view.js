@@ -164,10 +164,9 @@ window.onload = () => {
 
 // Communicate with the frame
 // Have to use this weird trick because contextIsolation: true
-window.addEventListener('message', (e) => {
-  if (e.data === 'request-is-singlebox-silent') {
-    e.source.postMessage({ type: 'is-singlebox-silent', val: new Date() + 0 }, e.origin);
-  }
+ipcRenderer.on('should-pause-notifications-changed', (e, val) => {
+  console.log(val);
+  window.postMessage({ type: 'should-pause-notifications-changed', val });
 });
 
 // Fix Can't show file list of Google Drive
@@ -204,27 +203,20 @@ window.desktop = undefined;
 (function() {
   const oldNotification = window.Notification;
 
-  const isSilentAsync = () => new Promise((resolve, reject) => {
-    try {
-      const listener = (e) => {
-        if (e.data && e.data.type === 'is-singlebox-silent') {
-          resolve(e.data.val);
-          window.removeEventListener('message', listener);
-        }
-      };
-      window.addEventListener('message', listener);
-      window.postMessage('request-is-singlebox-silent');
-    } catch (err) {
-      reject(err);
-    }
+  let shouldPauseNotifications = false;
+
+  window.addEventListener('message', function(e) {
+    if (!e.data || e.data.type !== 'should-pause-notifications-changed') return;
+    shouldPauseNotifications = e.data.val;
+    console.log(shouldPauseNotifications);
   });
 
   window.Notification = function() {
-    isSilentAsync()
-      .then(console.log)
-      .catch(console.log);
-    // return new oldNotification(...arguments);
+    if (!shouldPauseNotifications) {
+      return new oldNotification(...arguments);
+    }
+    return null;
   }
-  Notification.requestPermission = oldNotification.requestPermission;
+  window.Notification.requestPermission = oldNotification.requestPermission;
 })();
 `);

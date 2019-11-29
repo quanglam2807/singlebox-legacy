@@ -64,6 +64,10 @@ const setPreference = (name, value) => {
   if (name === 'registered') {
     ipcMain.emit('create-menu');
   }
+
+  if (name.startsWith('pauseNotifications')) {
+    ipcMain.emit('request-update-pause-notifications-info');
+  }
 };
 
 const resetPreferences = () => {

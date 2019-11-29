@@ -20,7 +20,6 @@ import OpenUrlWith from './components/open-url-with';
 import Preferences from './components/preferences';
 import Notifications from './components/notifications';
 
-
 import getWorkspacesAsList from './helpers/get-workspaces-as-list';
 
 const { webFrame } = window.require('electron');

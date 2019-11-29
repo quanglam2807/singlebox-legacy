@@ -3,6 +3,8 @@ export const SET_SYSTEM_PREFERENCE = 'SET_SYSTEM_PREFERENCE';
 
 // Preferences
 export const SET_PREFERENCE = 'SET_PREFERENCE';
+
+// Notifications
 export const UPDATE_PAUSE_NOTIFICATIONS_INFO = 'UPDATE_PAUSE_NOTIFICATIONS_INFO';
 
 // Workspaces

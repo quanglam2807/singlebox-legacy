@@ -12,6 +12,9 @@ import {
   openFindInPage,
   updateFindInPageMatches,
 } from '../state/find-in-page/actions';
+import {
+  updatePauseNotificationsInfo,
+} from '../state/notifications/actions';
 import { requestFindInPage } from '../senders';
 
 const { ipcRenderer } = window.require('electron');
@@ -69,6 +72,10 @@ const loadListeners = (store) => {
     const { open, text } = store.getState().findInPage;
     if (!open) return;
     requestFindInPage(text, forward);
+  });
+
+  ipcRenderer.on('should-pause-notifications-changed', (e, val) => {
+    store.dispatch(updatePauseNotificationsInfo(val));
   });
 };
 
