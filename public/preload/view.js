@@ -162,6 +162,14 @@ window.onload = () => {
   }
 };
 
+// Communicate with the frame
+// Have to use this weird trick because contextIsolation: true
+window.addEventListener('message', (e) => {
+  if (e.data === 'request-is-singlebox-silent') {
+    e.source.postMessage({ type: 'is-singlebox-silent', val: new Date() + 0 }, e.origin);
+  }
+});
+
 // Fix Can't show file list of Google Drive
 // https://github.com/electron/electron/issues/16587
 
@@ -190,12 +198,32 @@ window.electronSafeIpc = {
 };
 window.desktop = undefined;
 
+
 // Customize Notification behavior
 // https://stackoverflow.com/questions/53390156/how-to-override-javascript-web-api-notification-object
 (function() {
   const oldNotification = window.Notification;
+
+  const isSilentAsync = () => new Promise((resolve, reject) => {
+    try {
+      const listener = (e) => {
+        if (e.data && e.data.type === 'is-singlebox-silent') {
+          resolve(e.data.val);
+          window.removeEventListener('message', listener);
+        }
+      };
+      window.addEventListener('message', listener);
+      window.postMessage('request-is-singlebox-silent');
+    } catch (err) {
+      reject(err);
+    }
+  });
+
   window.Notification = function() {
-    return new oldNotification(...arguments);
+    isSilentAsync()
+      .then(console.log)
+      .catch(console.log);
+    // return new oldNotification(...arguments);
   }
   Notification.requestPermission = oldNotification.requestPermission;
 })();
