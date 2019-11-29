@@ -24,7 +24,7 @@ const create = () => {
     webPreferences: {
       nodeIntegration: true,
       webSecurity: false,
-      preload: path.join(__dirname, '..', 'preload', 'pause-notifications.js'),
+      preload: path.join(__dirname, '..', 'preload', 'notifications.js'),
     },
     parent: attachToMenubar ? null : mainWindow.get(),
   });

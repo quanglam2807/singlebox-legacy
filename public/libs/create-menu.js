@@ -13,7 +13,7 @@ const addWorkspaceWindow = require('../windows/add-workspace');
 const preferencesWindow = require('../windows/preferences');
 const editWorkspaceWindow = require('../windows/edit-workspace');
 const licenseRegistrationWindow = require('../windows/license-registration');
-const pauseNotificationsWindow = require('../windows/pause-notifications');
+const pauseNotificationsWindow = require('../windows/notifications');
 
 
 const { getPreference } = require('./preferences');
@@ -236,7 +236,7 @@ function createMenu() {
               },
             },
             {
-              label: 'Pause Notifications Window',
+              label: 'Notifications Window',
               click: () => {
                 const win = pauseNotificationsWindow.get();
                 if (win != null) {
