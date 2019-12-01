@@ -170,6 +170,7 @@ const Preferences = ({
             secondary="Navigation bar lets you go back, forward, home and reload."
           />
           <Switch
+            color="primary"
             checked={navigationBar}
             onChange={(e) => {
               requestSetPreference('navigationBar', e.target.checked);
@@ -212,6 +213,7 @@ const Preferences = ({
             )
           </ListItemText>
           <Switch
+            color="primary"
             checked={pauseNotificationsBySchedule}
             onChange={(e) => {
               requestSetPreference('pauseNotificationsBySchedule', e.target.checked);
@@ -227,6 +229,7 @@ const Preferences = ({
             <ListItem>
               <ListItemText primary="Show unread count badge" />
               <Switch
+                color="primary"
                 checked={unreadCountBadge}
                 onChange={(e) => {
                   requestSetPreference('unreadCountBadge', e.target.checked);
@@ -299,6 +302,7 @@ const Preferences = ({
             primary="Attach to menubar"
           />
           <Switch
+            color="primary"
             checked={attachToMenubar}
             onChange={(e) => {
               requestSetPreference('attachToMenubar', e.target.checked);
@@ -331,6 +335,7 @@ const Preferences = ({
                 )}
               />
               <Switch
+                color="primary"
                 checked={swipeToNavigate}
                 onChange={(e) => {
                   requestSetPreference('swipeToNavigate', e.target.checked);
@@ -375,6 +380,7 @@ const Preferences = ({
         <ListItem>
           <ListItemText primary="Ask where to save each file before downloading" />
           <Switch
+            color="primary"
             checked={askForDownloadPath}
             onChange={(e) => {
               requestSetPreference('askForDownloadPath', e.target.checked);
@@ -395,6 +401,7 @@ const Preferences = ({
         <ListItem>
           <ListItemText primary="Remember last page visited" />
           <Switch
+            color="primary"
             checked={rememberLastPageVisited}
             onChange={(e) => {
               requestSetPreference('rememberLastPageVisited', e.target.checked);
@@ -409,6 +416,7 @@ const Preferences = ({
         <ListItem>
           <ListItemText primary="Share browsing data between workspaces" />
           <Switch
+            color="primary"
             checked={shareWorkspaceBrowsingData}
             onChange={(e) => {
               requestSetPreference('shareWorkspaceBrowsingData', e.target.checked);
