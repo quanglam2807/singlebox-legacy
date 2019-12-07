@@ -301,7 +301,9 @@ const setActiveView = (browserWindow, id) => {
 const removeView = (id) => {
   const view = views[id];
   session.fromPartition(`persist:${id}`).clearStorageData();
-  view.destroy();
+  if (view != null) {
+    view.destroy();
+  }
 };
 
 module.exports = {
