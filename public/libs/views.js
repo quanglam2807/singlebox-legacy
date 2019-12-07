@@ -283,9 +283,27 @@ const removeView = (id) => {
   view.destroy();
 };
 
+const setViewsAudioPref = (shouldMuteAudio) => {
+  Object.values(views).forEach((view) => {
+    if (view != null) {
+      view.webContents.setAudioMuted(shouldMuteAudio);
+    }
+  });
+};
+
+const setViewsNotificationsPref = (shouldPauseNotifications) => {
+  Object.values(views).forEach((view) => {
+    if (view != null) {
+      view.webContents.send('should-pause-notifications-changed', shouldPauseNotifications);
+    }
+  });
+};
+
 module.exports = {
   addView,
   getView,
   setActiveView,
   removeView,
+  setViewsAudioPref,
+  setViewsNotificationsPref,
 };
