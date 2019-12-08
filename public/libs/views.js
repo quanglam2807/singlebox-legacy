@@ -18,6 +18,8 @@ const sendToAllWindows = require('./send-to-all-windows');
 const views = {};
 const badgeCounts = {};
 const didFailLoad = {};
+let shouldMuteAudio;
+let shouldPauseNotifications;
 
 const extractDomain = (fullUrl) => {
   const matches = fullUrl.match(/^https?:\/\/([^/?#]+)(?:[/?#]|$)/i);
@@ -212,6 +214,16 @@ const addView = (browserWindow, workspace) => {
     view.webContents.send('update-target-url', url);
   });
 
+  // Handle audio & notification preferences
+  if (shouldMuteAudio !== undefined) {
+    view.webContents.setAudioMuted(shouldMuteAudio);
+  }
+  if (shouldPauseNotifications !== undefined) {
+    view.webContents.once('did-stop-loading', () => {
+      view.webContents.send('should-pause-notifications-changed', shouldPauseNotifications);
+    });
+  }
+
   views[workspace.id] = view;
 
   if (workspace.active) {
@@ -283,18 +295,20 @@ const removeView = (id) => {
   view.destroy();
 };
 
-const setViewsAudioPref = (shouldMuteAudio) => {
+const setViewsAudioPref = (_shouldMuteAudio) => {
+  shouldMuteAudio = _shouldMuteAudio;
   Object.values(views).forEach((view) => {
     if (view != null) {
-      view.webContents.setAudioMuted(shouldMuteAudio);
+      view.webContents.setAudioMuted(_shouldMuteAudio);
     }
   });
 };
 
-const setViewsNotificationsPref = (shouldPauseNotifications) => {
+const setViewsNotificationsPref = (_shouldPauseNotifications) => {
+  shouldPauseNotifications = _shouldPauseNotifications;
   Object.values(views).forEach((view) => {
     if (view != null) {
-      view.webContents.send('should-pause-notifications-changed', shouldPauseNotifications);
+      view.webContents.send('should-pause-notifications-changed', _shouldPauseNotifications);
     }
   });
 };
