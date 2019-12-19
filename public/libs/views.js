@@ -113,11 +113,20 @@ const addView = (browserWindow, workspace) => {
     const currentDomain = extractDomain(e.sender.getURL());
     const nextDomain = extractDomain(nextUrl);
 
-    // open new window normally if explicitly requested
+    // load in same window
     if (
-      disposition === 'new-window'
-      && (nextDomain === appDomain || nextDomain === currentDomain)
+      // Google: Switch account
+      nextDomain === 'accounts.google.com'
+      // https://github.com/quanglam2807/webcatalog/issues/315
+      || ((appDomain.includes('asana.com') || currentDomain.includes('asana.com')) && nextDomain.includes('asana.com'))
     ) {
+      e.preventDefault();
+      e.sender.loadURL(nextUrl);
+      return;
+    }
+
+    // open new window
+    if (nextDomain === appDomain || nextDomain === currentDomain) {
       // https://gist.github.com/Gvozd/2cec0c8c510a707854e439fb15c561b0
       e.preventDefault();
       const newOptions = {
@@ -127,20 +136,6 @@ const addView = (browserWindow, workspace) => {
       const popupWin = new BrowserWindow(newOptions);
       popupWin.webContents.on('new-window', handleNewWindow);
       e.newGuest = popupWin;
-      return;
-    }
-
-    // load in same window
-    if (
-      // Google: Switch account
-      nextDomain === 'accounts.google.com'
-      // https://github.com/quanglam2807/webcatalog/issues/315
-      || ((appDomain.includes('asana.com') || currentDomain.includes('asana.com')) && nextDomain.includes('asana.com'))
-      || nextDomain === appDomain
-      || nextDomain === currentDomain
-    ) {
-      e.preventDefault();
-      e.sender.loadURL(nextUrl);
       return;
     }
 
