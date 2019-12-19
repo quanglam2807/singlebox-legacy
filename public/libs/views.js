@@ -135,7 +135,7 @@ const addView = (browserWindow, workspace) => {
       // Google: Switch account
       nextDomain === 'accounts.google.com'
       // https://github.com/quanglam2807/webcatalog/issues/315
-      || (currentDomain.includes('asana.com') && nextDomain.includes('asana.com'))
+      || ((appDomain.includes('asana.com') || currentDomain.includes('asana.com')) && nextDomain.includes('asana.com'))
       || nextDomain === appDomain
       || nextDomain === currentDomain
     ) {
