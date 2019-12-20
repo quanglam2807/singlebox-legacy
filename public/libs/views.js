@@ -192,7 +192,7 @@ const addView = (browserWindow, workspace) => {
   // https://github.com/meetfranz/franz/issues/1720#issuecomment-566460763
   const homeDomain = extractDomain(workspace.homeUrl);
   if (homeDomain.includes('google.com') || homeDomain.includes('gmail.com')) {
-    uaStr += ' Edge/18.17763'; // mock EdgeHTML Edge (mocking Chromium-based Edge doesn't work)
+    uaStr += ' Edge/18.18875'; // mock EdgeHTML Edge (mocking Chromium-based Edge doesn't work)
   }
   view.webContents.setUserAgent(uaStr);
 
