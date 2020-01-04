@@ -55,6 +55,7 @@ const licenseRegistrationWindow = require('../windows/license-registration');
 const mainWindow = require('../windows/main');
 const notificationsWindow = require('../windows/notifications');
 const preferencesWindow = require('../windows/preferences');
+const customUserAgentWindow = require('../windows/custom-user-agent');
 
 const loadListeners = () => {
   ipcMain.on('request-open-in-browser', (e, url) => {
@@ -128,6 +129,9 @@ const loadListeners = () => {
     codeInjectionWindow.show(type);
   });
 
+  ipcMain.on('request-show-custom-user-agent-window', () => {
+    customUserAgentWindow.show();
+  });
 
   ipcMain.on('request-reset-preferences', () => {
     dialog.showMessageBox(preferencesWindow.get(), {
