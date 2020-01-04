@@ -32,10 +32,10 @@ const addView = (browserWindow, workspace) => {
   if (views[workspace.id] != null) return;
 
   const {
+    customUserAgent,
     rememberLastPageVisited,
     shareWorkspaceBrowsingData,
     unreadCountBadge,
-    customUserAgent,
   } = getPreferences();
 
   const view = new BrowserView({
