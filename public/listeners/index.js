@@ -49,13 +49,13 @@ const createMenu = require('../libs/create-menu');
 const aboutWindow = require('../windows/about');
 const addWorkspaceWindow = require('../windows/add-workspace');
 const codeInjectionWindow = require('../windows/code-injection');
+const customUserAgentWindow = require('../windows/custom-user-agent');
 const displayMediaWindow = require('../windows/display-media');
 const editWorkspaceWindow = require('../windows/edit-workspace');
 const licenseRegistrationWindow = require('../windows/license-registration');
 const mainWindow = require('../windows/main');
 const notificationsWindow = require('../windows/notifications');
 const preferencesWindow = require('../windows/preferences');
-const customUserAgentWindow = require('../windows/custom-user-agent');
 
 const loadListeners = () => {
   ipcMain.on('request-open-in-browser', (e, url) => {
