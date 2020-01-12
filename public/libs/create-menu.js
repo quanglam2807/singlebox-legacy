@@ -420,6 +420,7 @@ function createMenu() {
         {
           label: 'Notifications...',
           click: () => notificationsWindow.show(),
+          accelerator: 'CmdOrCtrl+Shift+N',
         },
         { type: 'separator' },
         {
@@ -462,6 +463,7 @@ function createMenu() {
         {
           label: 'Notifications...',
           click: () => notificationsWindow.show(),
+          accelerator: 'CmdOrCtrl+Shift+N',
         },
         { type: 'separator' },
         {
