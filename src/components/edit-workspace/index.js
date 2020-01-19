@@ -163,8 +163,7 @@ const EditWorkspace = ({
               const opts = {
                 properties: ['openFile'],
                 filters: [
-                  { name: 'PNG (Portable Network Graphics)', extensions: ['png'] },
-                  { name: 'JPEG (Joint Photographic Experts Group)', extensions: ['jpg', 'jpeg'] },
+                  { name: 'Images', extensions: ['png', 'jpg', 'jpeg'] },
                 ],
               };
               remote.dialog.showOpenDialog(remote.getCurrentWindow(), opts)
