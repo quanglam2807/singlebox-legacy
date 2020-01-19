@@ -180,20 +180,15 @@ const EditWorkspace = ({
           <Typography variant="caption">
             PNG or JPEG.
           </Typography>
-          {homeUrl && !homeUrlError && (
-            <>
-              <br />
-              <Button
-                variant="outlined"
-                size="small"
-                className={classes.buttonBot}
-                disabled={downloadingIcon}
-                onClick={() => onGetIconFromInternet(true)}
-              >
-                {downloadingIcon ? 'Downloading Icon from the Internet...' : 'Download Icon from the Internet'}
-              </Button>
-            </>
-          )}
+          <Button
+            variant="outlined"
+            size="small"
+            className={classes.buttonBot}
+            disabled={!homeUrl || homeUrlError || downloadingIcon}
+            onClick={() => onGetIconFromInternet(true)}
+          >
+            {downloadingIcon ? 'Downloading Icon from the Internet...' : 'Download Icon from the Internet'}
+          </Button>
           <br />
           <Button
             variant="outlined"
