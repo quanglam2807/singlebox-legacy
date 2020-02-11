@@ -10,7 +10,7 @@ const { remote } = window.require('electron');
 
 const getValidationRules = () => ({
   url: {
-    fieldName: 'Home URL',
+    fieldName: 'URL',
     required: true,
     lessStrictUrl: true,
   },
