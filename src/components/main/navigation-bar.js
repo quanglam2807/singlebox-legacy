@@ -177,7 +177,6 @@ const mapStateToProps = (state) => ({
   canGoForward: state.general.canGoForward,
   hasWorkspaces: Object.keys(state.workspaces).length > 0,
   shouldPauseNotifications: state.notifications.pauseNotificationsInfo !== null,
-  title: state.general.title,
 });
 
 const actionCreators = {
