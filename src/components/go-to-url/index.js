@@ -31,6 +31,7 @@ const GoToUrl = ({
   <div className={classes.root}>
     <div className={classes.flexGrow}>
       <TextField
+        autoFocus
         id="outlined-full-width"
         label="URL"
         error={Boolean(urlError)}
@@ -45,6 +46,12 @@ const GoToUrl = ({
         }}
         value={url}
         onChange={(e) => onUpdateForm({ url: e.target.value })}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter') {
+            onGo();
+            e.target.blur();
+          }
+        }}
       />
     </div>
     <div>
