@@ -117,7 +117,7 @@ const NavigationBar = ({
         type="text"
         value={hasWorkspaces ? address : ''}
         disabled={!hasWorkspaces}
-        endAdornment={addressEdited && (
+        endAdornment={addressEdited && address && hasWorkspaces && (
           <IconButton
             aria-label="Go"
             className={classes.goButton}
@@ -177,6 +177,7 @@ const mapStateToProps = (state) => ({
   canGoForward: state.general.canGoForward,
   hasWorkspaces: Object.keys(state.workspaces).length > 0,
   shouldPauseNotifications: state.notifications.pauseNotificationsInfo !== null,
+  title: state.general.title,
 });
 
 const actionCreators = {
