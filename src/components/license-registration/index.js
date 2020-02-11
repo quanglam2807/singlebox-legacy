@@ -46,6 +46,7 @@ const DialogLicenseRegistration = (props) => {
           perpetual license key ($9.99) from our store.
         </DialogContentText>
         <TextField
+          autoFocus
           fullWidth
           id=""
           label="License Key"
