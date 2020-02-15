@@ -275,6 +275,27 @@ const Preferences = ({
             </ListItem>
           </>
         )}
+        {window.process.platform !== 'darwin' && (
+          <>
+            <Divider />
+            <ListItem>
+              <ListItemText
+                primary="Hide menu bar"
+                secondary="Hide the menu bar unless the Alt key is pressed."
+              />
+              <ListItemSecondaryAction>
+                <Switch
+                  color="primary"
+                  checked={hideMenuBar}
+                  onChange={(e) => {
+                    requestSetPreference('hideMenuBar', e.target.checked);
+                    requestShowRequireRestartDialog();
+                  }}
+                />
+              </ListItemSecondaryAction>
+            </ListItem>
+          </>
+        )}
         <Divider />
         <ListItem>
           <ListItemText
