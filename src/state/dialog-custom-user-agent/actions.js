@@ -6,8 +6,6 @@ import {
   requestShowRequireRestartDialog,
 } from '../../senders';
 
-const { remote } = window.require('electron');
-
 export const updateForm = (changes) => (dispatch) => dispatch({
   type: UPDATE_CUSTOM_USER_AGENT_FORM,
   changes,
@@ -21,5 +19,6 @@ export const save = () => (dispatch, getState) => {
     requestShowRequireRestartDialog();
   }
 
+  const { remote } = window.require('electron');
   remote.getCurrentWindow().close();
 };

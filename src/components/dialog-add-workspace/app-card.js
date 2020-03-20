@@ -18,8 +18,6 @@ import StatedMenu from '../shared/stated-menu';
 
 import { updateForm, updateMode } from '../../state/dialog-add-workspace/actions';
 
-const { remote } = window.require('electron');
-
 const styles = (theme) => ({
   card: {
     width: 368,
@@ -127,7 +125,7 @@ const AppCard = (props) => {
             disableElevation
             onClick={() => {
               requestCreateWorkspace(name, url, icon128);
-              remote.getCurrentWindow().close();
+              window.require('electron').remote.getCurrentWindow().close();
             }}
           >
             Add

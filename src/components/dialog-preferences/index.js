@@ -57,8 +57,6 @@ import {
   requestShowRequireRestartDialog,
 } from '../../senders';
 
-const { remote } = window.require('electron');
-
 const styles = (theme) => ({
   root: {
     padding: theme.spacing(2),
@@ -229,6 +227,7 @@ const Preferences = ({
   updaterInfo,
   updaterStatus,
 }) => {
+  const { remote } = window.require('electron');
   const sections = {
     general: {
       text: 'General',

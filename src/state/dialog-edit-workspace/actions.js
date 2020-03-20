@@ -14,8 +14,6 @@ import {
   requestRemoveWorkspacePicture,
 } from '../../senders';
 
-const { ipcRenderer, remote } = window.require('electron');
-
 const getValidationRules = () => ({
   name: {
     fieldName: 'Name',
@@ -33,6 +31,7 @@ const getValidationRules = () => ({
 export const getWebsiteIconUrlAsync = (url) => new Promise((resolve, reject) => {
   try {
     const id = Date.now().toString();
+    const { ipcRenderer } = window.require('electron');
     ipcRenderer.once(id, (e, uurl) => {
       resolve(uurl);
     });
@@ -68,6 +67,7 @@ export const getIconFromInternet = (forceOverwrite) => (dispatch, getState) => {
       }
 
       if (forceOverwrite && !iconUrl) {
+        const { remote } = window.require('electron');
         remote.dialog.showMessageBox(remote.getCurrentWindow(), {
           message: 'Unable to find a suitable icon from the Internet.',
           buttons: ['OK'],
@@ -93,6 +93,7 @@ export const save = () => (dispatch, getState) => {
     return dispatch(updateForm(validatedChanges));
   }
 
+  const { remote } = window.require('electron');
   const id = remote.getGlobal('editWorkspaceId');
   const url = form.homeUrl.trim();
   const homeUrl = isUrl(url) ? url : `http://${url}`;
