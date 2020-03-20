@@ -4,11 +4,7 @@ import { UPDATE_CUSTOM_USER_AGENT_FORM, DIALOG_CUSTOM_USER_AGENT_INIT } from '..
 
 import { getPreference } from '../../senders';
 
-const defaultForm = {
-  code: '',
-};
-
-const form = (state = defaultForm, action) => {
+const form = (state = {}, action) => {
   switch (action.type) {
     case DIALOG_CUSTOM_USER_AGENT_INIT: return { code: getPreference('customUserAgent') };
     case UPDATE_CUSTOM_USER_AGENT_FORM: return { ...state, ...action.changes };

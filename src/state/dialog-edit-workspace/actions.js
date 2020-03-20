@@ -2,6 +2,7 @@
 import {
   UPDATE_EDIT_WORKSPACE_DOWNLOADING_ICON,
   UPDATE_EDIT_WORKSPACE_FORM,
+  DIALOG_EDIT_WORKSPACE_INIT,
 } from '../../constants/actions';
 
 import hasErrors from '../../helpers/has-errors';
@@ -24,6 +25,10 @@ const getValidationRules = () => ({
     required: true,
     lessStrictUrl: true,
   },
+});
+
+export const init = () => ({
+  type: DIALOG_EDIT_WORKSPACE_INIT,
 });
 
 // to be replaced with invoke (electron 7+)

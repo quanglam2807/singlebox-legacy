@@ -4,11 +4,7 @@ import { UPDATE_CODE_INJECTION_FORM, DIALOG_CODE_INJECTION_INIT } from '../../co
 
 import { getPreference } from '../../senders';
 
-const defaultForm = {
-  code: '',
-};
-
-const form = (state = defaultForm, action) => {
+const form = (state = {}, action) => {
   switch (action.type) {
     case DIALOG_CODE_INJECTION_INIT: {
       const codeInjectionType = window.require('electron').remote.getGlobal('codeInjectionType');

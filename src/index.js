@@ -7,9 +7,10 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import 'typeface-roboto/index.css';
 
 import store from './state';
-import { init as initDialogProxy } from './state/dialog-proxy/actions';
 import { init as initDialogCodeInjection } from './state/dialog-code-injection/actions';
 import { init as initDialogCustomUserAgent } from './state/dialog-custom-user-agent/actions';
+import { init as initDialogEditWorkspace } from './state/dialog-edit-workspace/actions';
+import { init as initDialogProxy } from './state/dialog-proxy/actions';
 
 import AppWrapper from './components/app-wrapper';
 
@@ -66,6 +67,7 @@ const runApp = () => {
       } else if (window.mode === 'preferences') {
         document.title = 'Preferences';
       } else if (window.mode === 'edit-workspace') {
+        store.dispatch(initDialogEditWorkspace());
         const { workspaces } = store.getState();
         const workspaceList = getWorkspacesAsList(workspaces);
         const editWorkspaceId = remote.getGlobal('editWorkspaceId');
