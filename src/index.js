@@ -59,6 +59,8 @@ const runApp = () => {
         document.title = 'License Registration';
       } else if (window.mode === 'add-workspace') {
         document.title = 'Add Workspace';
+      } else if (window.mode === 'auth') {
+        document.title = 'Authentication';
       } else if (window.mode === 'preferences') {
         document.title = 'Preferences';
       } else if (window.mode === 'edit-workspace') {
@@ -94,6 +96,17 @@ const runApp = () => {
         document.title = 'Proxy Settings';
       } else {
         document.title = 'Singlebox';
+      }
+
+      if (window.mode !== 'main' && window.mode !== 'menubar') {
+        document.addEventListener('keydown', (event) => {
+          if (event.key === 'Escape') {
+            if (window.preventClosingWindow) {
+              return;
+            }
+            remote.getCurrentWindow().close();
+          }
+        });
       }
     });
 

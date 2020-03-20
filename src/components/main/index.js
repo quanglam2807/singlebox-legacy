@@ -109,7 +109,7 @@ const styles = (theme) => ({
     textTransform: 'uppercase',
     marginLeft: theme.spacing(1),
     marginRight: theme.spacing(1),
-    boxShadow: theme.shadows[1],
+    border: theme.palette.type === 'dark' ? 'none' : '1px solid rgba(0, 0, 0, 0.12)',
   },
   inlineBlock: {
     display: 'inline-block',
@@ -249,7 +249,7 @@ const Main = ({
                 {shouldPauseNotifications ? <NotificationsPausedIcon /> : <NotificationsIcon />}
               </IconButton>
               {window.mode === 'menubar' && (
-                <IconButton aria-label="Preferences" onClick={requestShowPreferencesWindow} className={classes.iconButton}>
+                <IconButton aria-label="Preferences" onClick={() => requestShowPreferencesWindow()} className={classes.iconButton}>
                   <SettingsIcon />
                 </IconButton>
               )}
