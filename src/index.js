@@ -9,6 +9,7 @@ import 'typeface-roboto/index.css';
 import store from './state';
 import { init as initDialogProxy } from './state/dialog-proxy/actions';
 import { init as initDialogCodeInjection } from './state/dialog-code-injection/actions';
+import { init as initDialogCustomUserAgent } from './state/dialog-custom-user-agent/actions';
 
 import AppWrapper from './components/app-wrapper';
 
@@ -88,6 +89,7 @@ const runApp = () => {
       } else if (window.mode === 'display-media') {
         document.title = 'Share your Screen';
       } else if (window.mode === 'custom-user-agent') {
+        store.dispatch(initDialogCustomUserAgent());
         document.title = 'Edit Custom User Agent';
       } else if (window.mode === 'go-to-url') {
         document.title = 'Go to URL';
