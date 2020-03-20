@@ -4,13 +4,7 @@ const {
   webFrame,
 } = require('electron');
 
-const {
-  SpellCheckHandler,
-  ContextMenuListener,
-  ContextMenuBuilder,
-} = require('electron-spellchecker');
-
-const { MenuItem } = remote;
+// const { MenuItem } = remote;
 
 window.global = {};
 
@@ -38,6 +32,7 @@ window.onload = () => {
     }
   }
 
+  /*
   const spellChecker = ipcRenderer.sendSync('get-preference', 'spellChecker');
   const spellCheckerLanguages = ipcRenderer.sendSync('get-preference', 'spellCheckerLanguages');
 
@@ -98,6 +93,7 @@ window.onload = () => {
         menu.popup(remote.getCurrentWindow());
       });
   });
+  */
 
   // Link preview
   const linkPreview = document.createElement('div');

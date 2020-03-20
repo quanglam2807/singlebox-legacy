@@ -55,7 +55,6 @@ const runApp = () => {
     .then(() => {
       const { webFrame, remote } = window.require('electron');
       webFrame.setVisualZoomLevelLimits(1, 1);
-      webFrame.setLayoutZoomLevelLimits(0, 0);
       if (window.mode === 'about') {
         document.title = 'About';
       } else if (window.mode === 'license-registration') {
