@@ -12,7 +12,7 @@ import DateFnsUtils from '@date-io/date-fns';
 
 import connectComponent from '../helpers/connect-component';
 
-import { updateIsDarkMode, updateIsFullScreen } from '../state/general/actions';
+import { updateIsFullScreen } from '../state/general/actions';
 
 class AppWrapper extends React.Component {
   constructor(props) {
@@ -104,7 +104,6 @@ const mapStateToProps = (state) => ({
 });
 
 const actionCreators = {
-  updateIsDarkMode,
   updateIsFullScreen,
 };
 
