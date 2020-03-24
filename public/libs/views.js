@@ -356,7 +356,8 @@ const addView = (browserWindow, workspace) => {
     if (!askForDownloadPath) {
       const finalFilePath = path.join(downloadPath, item.getFilename());
       if (!fsExtra.existsSync(finalFilePath)) {
-        item.setSavePath(finalFilePath);
+        // eslint-disable-next-line no-param-reassign
+        item.savePath = finalFilePath;
       }
     }
   });
@@ -373,7 +374,8 @@ const addView = (browserWindow, workspace) => {
     if (!askForDownloadPath) {
       const finalFilePath = path.join(downloadPath, item.getFilename());
       if (!fsExtra.existsSync(finalFilePath)) {
-        item.setSavePath(finalFilePath);
+        // eslint-disable-next-line no-param-reassign
+        item.savePath = finalFilePath;
       }
     }
   });
