@@ -87,13 +87,15 @@ const addView = (browserWindow, workspace) => {
   const {
     blockAds,
     customUserAgent,
-    rememberLastPageVisited,
-    shareWorkspaceBrowsingData,
-    unreadCountBadge,
     proxyBypassRules,
     proxyPacScript,
     proxyRules,
     proxyType,
+    rememberLastPageVisited,
+    shareWorkspaceBrowsingData,
+    spellcheck,
+    spellcheckLanguages,
+    unreadCountBadge,
   } = getPreferences();
 
   // configure session, proxy & ad blocker
@@ -123,11 +125,11 @@ const addView = (browserWindow, workspace) => {
     });
   }
   // spellchecker
-  ses.setSpellCheckerLanguages(['en-US']);
+  ses.setSpellCheckerLanguages(spellcheckLanguages);
 
   const view = new BrowserView({
     webPreferences: {
-      spellcheck: true,
+      spellcheck,
       nativeWindowOpen: true,
       nodeIntegration: false,
       contextIsolation: true,
@@ -145,7 +147,7 @@ const addView = (browserWindow, workspace) => {
     const uaStr = view.webContents.userAgent;
     const commonUaStr = uaStr
       // Fix WhatsApp requires Google Chrome 49+ bug
-      .replace(` ${app.getName()}/${app.getVersion()}`, '')
+      .replace(` ${app.name}/${app.getVersion()}`, '')
       // Hide Electron from UA to improve compatibility
       // https://github.com/quanglam2807/webcatalog/issues/182
       .replace(` Electron/${process.versions.electron}`, '');
@@ -394,7 +396,7 @@ const addView = (browserWindow, workspace) => {
         count += c;
       });
 
-      app.setBadgeCount(count);
+      app.badgeCount = count;
 
       if (process.platform === 'win32') {
         if (count > 0) {

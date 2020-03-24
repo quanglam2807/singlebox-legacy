@@ -23,6 +23,9 @@ const MAILTO_URLS = require('./constants/mailto-urls');
 
 require('./libs/updater');
 
+// see https://github.com/electron/electron/issues/18397
+app.allowRendererProcessReuse = true;
+
 const gotTheLock = app.requestSingleInstanceLock();
 
 app.on('second-instance', () => {
