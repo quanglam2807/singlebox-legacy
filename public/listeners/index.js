@@ -4,6 +4,7 @@ const {
   app,
   dialog,
   ipcMain,
+  nativeTheme,
   shell,
 } = require('electron');
 const { autoUpdater } = require('electron-updater');
@@ -410,6 +411,19 @@ const loadListeners = () => {
         console.log(err); // eslint-disable-line no-console
         sendToAllWindows(id, null);
       });
+  });
+
+  // Native Theme
+  ipcMain.on('get-should-use-dark-colors', (e) => {
+    e.returnValue = nativeTheme.shouldUseDarkColors;
+  });
+
+  ipcMain.on('get-theme-source', (e) => {
+    e.returnValue = nativeTheme.themeSource;
+  });
+
+  ipcMain.on('request-set-theme-source', (e, val) => {
+    nativeTheme.themeSource = val;
   });
 };
 

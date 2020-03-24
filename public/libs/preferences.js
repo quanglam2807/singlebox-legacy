@@ -111,7 +111,6 @@ const defaultPreferences = {
   spellcheck: true,
   spellcheckLanguages: ['en-US'],
   swipeToNavigate: true,
-  theme: process.platform === 'darwin' ? 'automatic' : 'light',
   titleBar: false,
   unreadCountBadge: true,
 };

@@ -50,14 +50,15 @@ import {
   requestResetPreferences,
   requestSetPreference,
   requestSetSystemPreference,
+  requestSetThemeSource,
   requestShowAboutWindow,
   requestShowCodeInjectionWindow,
   requestShowCustomUserAgentWindow,
   requestShowLicenseRegistrationWindow,
   requestShowNotificationsWindow,
   requestShowProxyWindow,
-  requestShowSpellcheckLanguagesWindow,
   requestShowRequireRestartDialog,
+  requestShowSpellcheckLanguagesWindow,
 } from '../../senders';
 
 const styles = (theme) => ({
@@ -173,7 +174,7 @@ const Preferences = ({
   spellcheck,
   spellcheckLanguages,
   swipeToNavigate,
-  theme,
+  themeSource,
   titleBar,
   unreadCountBadge,
   updaterInfo,
@@ -284,14 +285,14 @@ const Preferences = ({
               id="theme"
               buttonElement={(
                 <ListItem button>
-                  <ListItemText primary="Theme" secondary={getThemeString(theme)} />
+                  <ListItemText primary="Theme" secondary={getThemeString(themeSource)} />
                   <ChevronRightIcon color="action" />
                 </ListItem>
               )}
             >
-              <MenuItem dense onClick={() => requestSetPreference('theme', 'automatic')}>System default</MenuItem>
-              <MenuItem dense onClick={() => requestSetPreference('theme', 'light')}>Light</MenuItem>
-              <MenuItem dense onClick={() => requestSetPreference('theme', 'dark')}>Dark</MenuItem>
+              <MenuItem dense onClick={() => requestSetThemeSource('system')}>System default</MenuItem>
+              <MenuItem dense onClick={() => requestSetThemeSource('light')}>Light</MenuItem>
+              <MenuItem dense onClick={() => requestSetThemeSource('dark')}>Dark</MenuItem>
             </StatedMenu>
             <Divider />
             <ListItem>
@@ -922,7 +923,7 @@ Preferences.propTypes = {
   spellcheck: PropTypes.bool.isRequired,
   spellcheckLanguages: PropTypes.arrayOf(PropTypes.string).isRequired,
   swipeToNavigate: PropTypes.bool.isRequired,
-  theme: PropTypes.string.isRequired,
+  themeSource: PropTypes.string.isRequired,
   titleBar: PropTypes.bool.isRequired,
   unreadCountBadge: PropTypes.bool.isRequired,
   updaterInfo: PropTypes.object,
@@ -955,7 +956,6 @@ const mapStateToProps = (state) => ({
   spellcheck: state.preferences.spellcheck,
   spellcheckLanguages: state.preferences.spellcheckLanguages,
   swipeToNavigate: state.preferences.swipeToNavigate,
-  theme: state.preferences.theme,
   titleBar: state.preferences.titleBar,
   unreadCountBadge: state.preferences.unreadCountBadge,
   updaterInfo: state.updater.info,
