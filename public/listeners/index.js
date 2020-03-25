@@ -371,8 +371,7 @@ const loadListeners = () => {
       buttons: ['OK'],
       cancelId: 0,
       defaultId: 0,
-    })
-      .catch(console.log); // eslint-disable-line
+    }).catch(console.log); // eslint-disable-line
   });
 
   ipcMain.on('create-menu', () => {

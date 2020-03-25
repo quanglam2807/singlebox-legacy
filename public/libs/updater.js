@@ -46,8 +46,7 @@ autoUpdater.on('update-not-available', (info) => {
       buttons: ['OK'],
       cancelId: 0,
       defaultId: 0,
-    })
-      .catch(console.log); // eslint-disable-line
+    }).catch(console.log); // eslint-disable-line
     global.updateSilent = true;
   }
 
@@ -67,8 +66,7 @@ autoUpdater.on('error', (err) => {
       buttons: ['OK'],
       cancelId: 0,
       defaultId: 0,
-    })
-      .catch(console.log); // eslint-disable-line
+    }).catch(console.log); // eslint-disable-line
     global.updateSilent = true;
   }
 
