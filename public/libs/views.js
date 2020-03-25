@@ -125,7 +125,9 @@ const addView = (browserWindow, workspace) => {
     });
   }
   // spellchecker
-  ses.setSpellCheckerLanguages(spellcheckLanguages);
+  if (spellcheck && process.platform !== 'darwin') {
+    ses.setSpellCheckerLanguages(spellcheckLanguages);
+  }
 
   const view = new BrowserView({
     webPreferences: {
