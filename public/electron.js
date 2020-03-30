@@ -121,7 +121,7 @@ if (!gotTheLock) {
     global.MAILTO_URLS = MAILTO_URLS;
 
     autoUpdater.allowPrerelease = allowPrerelease;
-    if (autoUpdater.isUpdaterActive()) {
+    if (!autoUpdater.isUpdaterActive()) {
       autoUpdater.checkForUpdates();
     }
 
