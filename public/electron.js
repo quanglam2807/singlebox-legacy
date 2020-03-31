@@ -1,12 +1,10 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 const {
   app,
-  dialog,
   ipcMain,
   nativeTheme,
   protocol,
   session,
-  shell,
 } = require('electron');
 const { autoUpdater } = require('electron-updater');
 
