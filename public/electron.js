@@ -227,14 +227,14 @@ if (!gotTheLock) {
               'None of your workspaces supports composing email messages.',
               'error',
             );
-            return;
+            return null;
           }
 
           if (mailtoWorkspaces.length === 1) {
             const mailtoUrl = MAILTO_URLS[extractHostname(mailtoWorkspaces[0].homeUrl)];
             const u = mailtoUrl.replace('%s', url);
             ipcMain.emit('request-load-url', null, u, mailtoWorkspaces[0].id);
-            return;
+            return null;
           }
 
           return openUrlWithWindow.show(url);
