@@ -139,7 +139,7 @@ if (!gotTheLock) {
         }
       })
       .then(() => {
-        // trigger truly-ready;
+        // trigger whenTrulyReady
         ipcMain.emit('truly-ready');
       });
   };
@@ -209,7 +209,7 @@ if (!gotTheLock) {
   app.on('open-url', (e, url) => {
     e.preventDefault();
 
-    return whenTrulyReady()
+    whenTrulyReady()
       .then(() => {
         const workspaces = Object.values(getWorkspaces());
 
