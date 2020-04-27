@@ -295,6 +295,7 @@ const addView = (browserWindow, workspace) => {
         parent: browserWindow,
       };
       const popupWin = new BrowserWindow(newOptions);
+      popupWin.setMenuBarVisibility(false);
       popupWin.webContents.on('new-window', handleNewWindow);
       e.newGuest = popupWin;
     };
@@ -354,6 +355,7 @@ const addView = (browserWindow, workspace) => {
         parent: browserWindow,
       };
       const popupWin = new BrowserWindow(newOptions);
+      popupWin.setMenuBarVisibility(false);
       popupWin.webContents.on('new-window', handleNewWindow);
       popupWin.webContents.once('will-navigate', (_, url) => {
         // if the window is used for the current app, then use default behavior
