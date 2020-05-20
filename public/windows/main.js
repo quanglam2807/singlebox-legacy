@@ -44,7 +44,7 @@ const createAsync = () => new Promise((resolve) => {
         minWidth: 250,
         webPreferences: {
           nodeIntegration: true,
-          webSecurity: false,
+          webSecurity: app.isPackaged, // webSecurity = false in dev to use file:// with dev server
           preload: path.join(__dirname, '..', 'preload', 'menubar.js'),
         },
       },
@@ -161,7 +161,7 @@ const createAsync = () => new Promise((resolve) => {
     icon: process.platform === 'linux' && process.env.SNAP == null ? path.resolve(__dirname, '..', 'icon.png') : undefined,
     webPreferences: {
       nodeIntegration: true,
-      webSecurity: false,
+      webSecurity: app.isPackaged, // webSecurity = false in dev to use file:// with dev server
       preload: path.join(__dirname, '..', 'preload', 'main.js'),
     },
   });

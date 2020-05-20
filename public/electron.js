@@ -200,6 +200,15 @@ if (!gotTheLock) {
       autoUpdater.checkForUpdates();
     }
 
+    protocol.interceptFileProtocol(
+      'file',
+      (request, callback) => {
+        const decodedUri = decodeURI(request.url); // '%20' -> ' '
+        const fullPath = decodedUri.substr(7); // strip "file://" out of all urls
+        callback(fullPath);
+      },
+    );
+
     commonInit();
   });
 

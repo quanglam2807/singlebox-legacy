@@ -1,4 +1,4 @@
-const { BrowserWindow } = require('electron');
+const { app, BrowserWindow } = require('electron');
 const path = require('path');
 
 const { REACT_PATH } = require('../constants/paths');
@@ -25,7 +25,7 @@ const create = (id) => {
     autoHideMenuBar: false,
     webPreferences: {
       nodeIntegration: true,
-      webSecurity: false,
+      webSecurity: app.isPackaged, // webSecurity = false in dev to use file:// with dev server
       preload: path.join(__dirname, '..', 'preload', 'edit-workspace.js'),
     },
     parent: attachToMenubar ? null : mainWindow.get(),
