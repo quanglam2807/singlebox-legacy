@@ -2,6 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
+import SimpleBar from 'simplebar-react';
+import 'simplebar/dist/simplebar.min.css';
+
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 
@@ -223,7 +226,7 @@ const Main = ({
       {showTitleBar && (<FakeTitleBar />)}
       <div className={classes.root}>
         {sidebar && (
-          <div className={classes.sidebarRoot}>
+          <SimpleBar className={classes.sidebarRoot}>
             <div className={classNames(classes.sidebarTop,
               (isFullScreen || showTitleBar || window.mode === 'menubar') && classes.sidebarTopFullScreen)}
             >
@@ -269,7 +272,7 @@ const Main = ({
               )}
             </div>
             )}
-          </div>
+          </SimpleBar>
         )}
         <div className={classes.contentRoot}>
           {navigationBar && <NavigationBar />}
