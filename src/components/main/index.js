@@ -205,6 +205,18 @@ const SortableItem = sortableElement(({ value }) => {
 
 const SortableContainer = sortableContainer(({ children }) => <div>{children}</div>);
 
+const SidebarContainer = ({ className, children }) => {
+  // use native scroll bar on macOS
+  if (window.process.platform === 'darwin') {
+    return <div className={className}>{children}</div>;
+  }
+  return <SimpleBar className={className}>{children}</SimpleBar>;
+};
+SidebarContainer.propTypes = {
+  className: PropTypes.string.isRequired,
+  children: PropTypes.node.isRequired,
+};
+
 const Main = ({
   classes,
   didFailLoad,
@@ -226,7 +238,7 @@ const Main = ({
       {showTitleBar && (<FakeTitleBar />)}
       <div className={classes.root}>
         {sidebar && (
-          <SimpleBar className={classes.sidebarRoot}>
+          <SidebarContainer className={classes.sidebarRoot}>
             <div className={classNames(classes.sidebarTop,
               (isFullScreen || showTitleBar || window.mode === 'menubar') && classes.sidebarTopFullScreen)}
             >
@@ -272,7 +284,7 @@ const Main = ({
               )}
             </div>
             )}
-          </SimpleBar>
+          </SidebarContainer>
         )}
         <div className={classes.contentRoot}>
           {navigationBar && <NavigationBar />}
