@@ -1,9 +1,8 @@
 import React from 'react';
-
 import PropTypes from 'prop-types';
 
 import Divider from '@material-ui/core/Divider';
-import LinearProgress from '@material-ui/core/LinearProgress';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import Grid from '@material-ui/core/Grid';
 import BottomNavigation from '@material-ui/core/BottomNavigation';
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
@@ -13,6 +12,8 @@ import Typography from '@material-ui/core/Typography';
 import SearchIcon from '@material-ui/icons/Search';
 import ViewListIcon from '@material-ui/icons/ViewList';
 import CreateIcon from '@material-ui/icons/Create';
+
+import { FixedSizeList } from 'react-window';
 
 import connectComponent from '../../helpers/connect-component';
 
@@ -47,19 +48,20 @@ const styles = (theme) => ({
   },
   scrollContainer: {
     flex: 1,
-    paddingLeft: theme.spacing(1),
-    paddingRight: theme.spacing(1),
-    paddingTop: theme.spacing(2),
-    paddingBottom: theme.spacing(1),
-    overflow: 'auto',
+    padding: 0,
+    overflow: 'hidden',
     boxSizing: 'border-box',
+    position: 'relative',
   },
   grid: {
     marginBottom: theme.spacing(1),
   },
   searchByAlgoliaContainer: {
-    marginTop: theme.spacing(3),
+    marginTop: theme.spacing(1.5),
+    marginBottom: theme.spacing(1.5),
     outline: 'none',
+    width: '100%',
+    textAlign: 'center',
   },
   searchByAlgolia: {
     height: 20,
@@ -82,6 +84,10 @@ const styles = (theme) => ({
     height: '100%',
     overflow: 'hidden',
   },
+  cardContainer: {
+    paddingLeft: theme.spacing(1),
+    paddingRight: theme.spacing(1),
+  },
 });
 
 class AddWorkspace extends React.Component {
@@ -90,15 +96,8 @@ class AddWorkspace extends React.Component {
 
     onGetHits();
 
-    const el = this.scrollContainer;
-    el.onscroll = () => {
-      const { isGetting, currentQuery, hits } = this.props;
-      if (!isGetting && currentQuery.length > 0 && hits.length < 1) return; // no result
-      // Plus 300 to run ahead.
-      if (el.scrollTop + 300 >= el.scrollHeight - el.offsetHeight) {
-        onGetHits();
-      }
-    };
+    // const { isGetting, currentQuery, hits } = this.props;
+    // if (!isGetting && currentQuery.length > 0 && hits.length < 1) return; // no result
   }
 
   render() {
@@ -148,37 +147,11 @@ class AddWorkspace extends React.Component {
         );
       }
 
-      return (
-        <>
-          <Grid container justify="center" spacing={1}>
-            {currentQuery && (
-              <Grid item xs={12}>
-                <Typography
-                  variant="subtitle1"
-                  align="left"
-                  noWrap
-                >
-                  Search results for&nbsp;
-                  <b>{currentQuery}</b>
-                </Typography>
-                <Divider className={classes.divider} />
-              </Grid>
-            )}
-            {hits.map((app) => (
-              <AppCard
-                key={app.id}
-                id={app.id}
-                name={app.name}
-                url={app.url}
-                icon={app.icon}
-                icon128={app.icon128}
-              />
-            ))}
-            {!isGetting && <SubmitAppCard />}
-          </Grid>
-
-          {!isGetting && (
-            <Grid container justify="center" spacing={2}>
+      const Row = ({ index, style }) => {
+        if (index >= hits.length) {
+          return (
+            <div className={classes.cardContainer} style={{ ...style, height: 'auto', paddingTop: 8 }}>
+              <SubmitAppCard />
               <div
                 onKeyDown={(e) => {
                   if (e.key !== 'Enter') return;
@@ -195,8 +168,50 @@ class AddWorkspace extends React.Component {
                   className={classes.searchByAlgolia}
                 />
               </div>
-            </Grid>
-          )}
+            </div>
+          );
+        }
+
+        const app = hits[index];
+        return (
+          <div className={classes.cardContainer} style={style}>
+            <AppCard
+              key={app.id}
+              id={app.id}
+              name={app.name}
+              url={app.url}
+              icon={app.icon}
+              icon128={app.icon128}
+            />
+          </div>
+        );
+      };
+
+      return (
+        <>
+          <div>
+            {currentQuery && (
+              <>
+                <Typography
+                  variant="subtitle1"
+                  align="left"
+                  noWrap
+                >
+                  Search results for&nbsp;
+                  <b>{currentQuery}</b>
+                </Typography>
+                <Divider className={classes.divider} />
+              </>
+            )}
+            <FixedSizeList
+              height={window.innerHeight - 80} // total height - search bar (40) - bottom nav (40)
+              itemCount={!isGetting ? hits.length + 1 : hits.length}
+              itemSize={60}
+              width="100%"
+            >
+              {Row}
+            </FixedSizeList>
+          </div>
         </>
       );
     };
@@ -211,14 +226,17 @@ class AddWorkspace extends React.Component {
           </Grid>
           <div
             className={classes.scrollContainer}
-            ref={(container) => { this.scrollContainer = container; }}
           >
             <Grid container className={classes.grid} spacing={2}>
               <Grid item xs={12}>
                 {renderContent()}
               </Grid>
             </Grid>
-            {isGetting && (<LinearProgress />)}
+            {isGetting && (
+              <div style={{ position: 'absolute', bottom: 8, right: 8 }}>
+                <CircularProgress size={28} />
+              </div>
+            )}
           </div>
         </div>
         {mode === 'custom' && <Form />}
