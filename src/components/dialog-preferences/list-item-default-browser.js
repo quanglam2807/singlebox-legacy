@@ -84,7 +84,6 @@ const ListItemDefaultBrowser = () => {
         size="small"
         color="default"
         onClick={() => {
-          window.require('electron').app.setAsDefaultProtocolClient('https');
           window.require('electron').remote.app.setAsDefaultProtocolClient('http');
           window.require('electron').remote.app.setAsDefaultProtocolClient('https');
           recheckIsDefault();
