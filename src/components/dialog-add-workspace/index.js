@@ -88,6 +88,9 @@ const styles = (theme) => ({
     paddingLeft: theme.spacing(1),
     paddingRight: theme.spacing(1),
   },
+  contentContainer: {
+    padding: theme.spacing(1),
+  },
 });
 
 class AddWorkspace extends React.Component {
@@ -116,9 +119,11 @@ class AddWorkspace extends React.Component {
     const renderContent = () => {
       if (hasFailed) {
         return (
-          <NoConnection
-            onTryAgainButtonClick={onGetHits}
-          />
+          <div className={classes.contentContainer}>
+            <NoConnection
+              onTryAgainButtonClick={onGetHits}
+            />
+          </div>
         );
       }
 
@@ -188,31 +193,14 @@ class AddWorkspace extends React.Component {
       };
 
       return (
-        <>
-          <div>
-            {currentQuery && (
-              <>
-                <Typography
-                  variant="subtitle1"
-                  align="left"
-                  noWrap
-                >
-                  Search results for&nbsp;
-                  <b>{currentQuery}</b>
-                </Typography>
-                <Divider className={classes.divider} />
-              </>
-            )}
-            <FixedSizeList
-              height={window.innerHeight - 80} // total height - search bar (40) - bottom nav (40)
-              itemCount={!isGetting ? hits.length + 1 : hits.length}
-              itemSize={60}
-              width="100%"
-            >
-              {Row}
-            </FixedSizeList>
-          </div>
-        </>
+        <FixedSizeList
+          height={window.innerHeight - 80} // total height - search bar (40) - bottom nav (40)
+          itemCount={!isGetting ? hits.length + 1 : hits.length}
+          itemSize={60}
+          width="100%"
+        >
+          {Row}
+        </FixedSizeList>
       );
     };
 
