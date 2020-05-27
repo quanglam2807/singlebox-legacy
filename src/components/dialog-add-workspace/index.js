@@ -110,7 +110,7 @@ const AddWorkspace = ({
 }) => {
   useEffect(() => {
     onGetHits();
-  }, []);
+  }, [onGetHits]);
 
   const renderContent = () => {
     if (hasFailed) {
