@@ -1,7 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 
-import Divider from '@material-ui/core/Divider';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Grid from '@material-ui/core/Grid';
 import BottomNavigation from '@material-ui/core/BottomNavigation';
@@ -13,13 +12,14 @@ import SearchIcon from '@material-ui/icons/Search';
 import ViewListIcon from '@material-ui/icons/ViewList';
 import CreateIcon from '@material-ui/icons/Create';
 
+import InfiniteLoader from 'react-window-infinite-loader';
 import { FixedSizeList } from 'react-window';
 
 import connectComponent from '../../helpers/connect-component';
 
 import { requestOpenInBrowser } from '../../senders';
 
-import { getHits, updateMode } from '../../state/dialog-add-workspace/actions';
+import { getHits, updateMode, updateScrollOffset } from '../../state/dialog-add-workspace/actions';
 
 import AppCard from './app-card';
 import SubmitAppCard from './submit-app-card';
@@ -93,120 +93,140 @@ const styles = (theme) => ({
   },
 });
 
-class AddWorkspace extends React.Component {
-  componentDidMount() {
-    const { onGetHits } = this.props;
-
+const AddWorkspace = ({
+  classes,
+  currentQuery,
+  hasFailed,
+  hits,
+  isGetting,
+  mode,
+  onGetHits,
+  onUpdateMode,
+  onUpdateScrollOffset,
+  page,
+  scrollOffset,
+  shouldUseDarkColors,
+  totalPage,
+}) => {
+  useEffect(() => {
     onGetHits();
+  }, []);
 
-    // const { isGetting, currentQuery, hits } = this.props;
-    // if (!isGetting && currentQuery.length > 0 && hits.length < 1) return; // no result
-  }
+  const renderContent = () => {
+    if (hasFailed) {
+      return (
+        <div className={classes.contentContainer}>
+          <NoConnection
+            onTryAgainButtonClick={onGetHits}
+          />
+        </div>
+      );
+    }
 
-  render() {
-    const {
-      classes,
-      currentQuery,
-      hasFailed,
-      hits,
-      isGetting,
-      mode,
-      onGetHits,
-      onUpdateMode,
-      shouldUseDarkColors,
-    } = this.props;
-
-    const renderContent = () => {
-      if (hasFailed) {
-        return (
-          <div className={classes.contentContainer}>
-            <NoConnection
-              onTryAgainButtonClick={onGetHits}
-            />
-          </div>
-        );
-      }
-
-      if (!isGetting && hits.length < 1) {
-        return (
-          <EmptyState icon={SearchIcon} title="No Matching Results">
-            <Grid container justify="center" spacing={2}>
-              <Grid item xs={12}>
-                <Typography
-                  variant="subtitle1"
-                  align="center"
-                >
-                  Your search -&nbsp;
-                  <b>{currentQuery}</b>
-                  &nbsp;- did not match any apps in the catalog.
-                </Typography>
-              </Grid>
-              <Grid item>
-                <AddCustomAppCard />
-              </Grid>
-              <Grid item>
-                <SubmitAppCard />
-              </Grid>
-            </Grid>
-          </EmptyState>
-        );
-      }
-
-      const Row = ({ index, style }) => {
-        if (index >= hits.length) {
-          return (
-            <div className={classes.cardContainer} style={{ ...style, height: 'auto', paddingTop: 8 }}>
-              <SubmitAppCard />
-              <div
-                onKeyDown={(e) => {
-                  if (e.key !== 'Enter') return;
-                  requestOpenInBrowser('https://algolia.com');
-                }}
-                onClick={() => requestOpenInBrowser('https://algolia.com')}
-                role="link"
-                tabIndex="0"
-                className={classes.searchByAlgoliaContainer}
+    if (!isGetting && hits.length < 1) {
+      return (
+        <EmptyState icon={SearchIcon} title="No Matching Results">
+          <Grid container justify="center" spacing={2}>
+            <Grid item xs={12}>
+              <Typography
+                variant="subtitle1"
+                align="center"
               >
-                <img
-                  src={shouldUseDarkColors ? searchByAlgoliaDarkSvg : searchByAlgoliaLightSvg}
-                  alt="Search by Algolia"
-                  className={classes.searchByAlgolia}
-                />
-              </div>
-            </div>
-          );
-        }
+                Your search -&nbsp;
+                <b>{currentQuery}</b>
+                &nbsp;- did not match any apps in the catalog.
+              </Typography>
+            </Grid>
+            <Grid item>
+              <AddCustomAppCard />
+            </Grid>
+            <Grid item>
+              <SubmitAppCard />
+            </Grid>
+          </Grid>
+        </EmptyState>
+      );
+    }
 
-        const app = hits[index];
+    const Row = ({ index, style }) => {
+      if (index === hits.length) {
+        if (isGetting) return null;
         return (
-          <div className={classes.cardContainer} style={style}>
-            <AppCard
-              key={app.id}
-              id={app.id}
-              name={app.name}
-              url={app.url}
-              icon={app.icon}
-              icon128={app.icon128}
-            />
+          <div className={classes.cardContainer} style={{ ...style, height: 'auto', paddingTop: 8 }}>
+            <SubmitAppCard />
+            <div
+              onKeyDown={(e) => {
+                if (e.key !== 'Enter') return;
+                requestOpenInBrowser('https://algolia.com');
+              }}
+              onClick={() => requestOpenInBrowser('https://algolia.com')}
+              role="link"
+              tabIndex="0"
+              className={classes.searchByAlgoliaContainer}
+            >
+              <img
+                src={shouldUseDarkColors ? searchByAlgoliaDarkSvg : searchByAlgoliaLightSvg}
+                alt="Search by Algolia"
+                className={classes.searchByAlgolia}
+              />
+            </div>
           </div>
         );
+      }
+      Row.propTypes = {
+        index: PropTypes.number.isRequired,
+        style: PropTypes.object.isRequired,
       };
 
+      const app = hits[index];
       return (
-        <FixedSizeList
-          height={window.innerHeight - 80} // total height - search bar (40) - bottom nav (40)
-          itemCount={!isGetting ? hits.length + 1 : hits.length}
-          itemSize={60}
-          width="100%"
-        >
-          {Row}
-        </FixedSizeList>
+        <div className={classes.cardContainer} style={style}>
+          <AppCard
+            key={app.id}
+            id={app.id}
+            name={app.name}
+            url={app.url}
+            icon={app.icon}
+            icon128={app.icon128}
+          />
+        </div>
       );
     };
 
+    const hasNextPage = page + 1 < totalPage;
+    const itemCount = hits.length + 1;
+    // Every row is loaded except for our loading indicator row.
+    const isItemLoaded = (index) => !hasNextPage || index < hits.length;
     return (
-      <div className={classes.root}>
-        <div className={classes.homeContainer} style={mode !== 'catalog' ? { display: 'none' } : null}>
+      <InfiniteLoader
+        isItemLoaded={isItemLoaded}
+        itemCount={hits.length + 1}
+        loadMoreItems={onGetHits}
+      >
+        {({ onItemsRendered, ref }) => (
+          <FixedSizeList
+            height={window.innerHeight - 80} // total height - search bar (40) - bottom nav (40)
+            itemCount={itemCount}
+            itemSize={60}
+            initialScrollOffset={scrollOffset}
+            width="100%"
+            onItemsRendered={onItemsRendered}
+            onScroll={(position) => {
+              onUpdateScrollOffset(position.scrollOffset || 0);
+            }}
+            ref={ref}
+          >
+            {Row}
+          </FixedSizeList>
+        )}
+      </InfiniteLoader>
+    );
+  };
+
+  return (
+    <div className={classes.root}>
+      {mode === 'catalog' && (
+        <div className={classes.homeContainer}>
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <SearchBox />
@@ -227,39 +247,39 @@ class AddWorkspace extends React.Component {
             )}
           </div>
         </div>
-        {mode === 'custom' && <Form />}
+      )}
+      {mode === 'custom' && <Form />}
 
-        <Paper elevation={1} square className={classes.paper}>
-          <BottomNavigation
-            showLabels
-            value={mode}
-            onChange={(e, value) => onUpdateMode(value)}
-            classes={{ root: classes.bottomNavigation }}
-          >
-            <BottomNavigationAction
-              label="Catalog"
-              value="catalog"
-              icon={<ViewListIcon />}
-              classes={{
-                wrapper: classes.bottomNavigationActionWrapper,
-                label: classes.bottomNavigationActionLabel,
-              }}
-            />
-            <BottomNavigationAction
-              label="Custom Workspace"
-              value="custom"
-              icon={<CreateIcon />}
-              classes={{
-                wrapper: classes.bottomNavigationActionWrapper,
-                label: classes.bottomNavigationActionLabel,
-              }}
-            />
-          </BottomNavigation>
-        </Paper>
-      </div>
-    );
-  }
-}
+      <Paper elevation={1} square className={classes.paper}>
+        <BottomNavigation
+          showLabels
+          value={mode}
+          onChange={(e, value) => onUpdateMode(value)}
+          classes={{ root: classes.bottomNavigation }}
+        >
+          <BottomNavigationAction
+            label="Catalog"
+            value="catalog"
+            icon={<ViewListIcon />}
+            classes={{
+              wrapper: classes.bottomNavigationActionWrapper,
+              label: classes.bottomNavigationActionLabel,
+            }}
+          />
+          <BottomNavigationAction
+            label="Custom Workspace"
+            value="custom"
+            icon={<CreateIcon />}
+            classes={{
+              wrapper: classes.bottomNavigationActionWrapper,
+              label: classes.bottomNavigationActionLabel,
+            }}
+          />
+        </BottomNavigation>
+      </Paper>
+    </div>
+  );
+};
 
 AddWorkspace.defaultProps = {
   currentQuery: '',
@@ -274,7 +294,11 @@ AddWorkspace.propTypes = {
   mode: PropTypes.string.isRequired,
   onGetHits: PropTypes.func.isRequired,
   onUpdateMode: PropTypes.func.isRequired,
+  onUpdateScrollOffset: PropTypes.func.isRequired,
+  page: PropTypes.number.isRequired,
+  scrollOffset: PropTypes.number.isRequired,
   shouldUseDarkColors: PropTypes.bool.isRequired,
+  totalPage: PropTypes.number.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -283,12 +307,16 @@ const mapStateToProps = (state) => ({
   hits: state.dialogAddWorkspace.hits,
   isGetting: state.dialogAddWorkspace.isGetting,
   mode: state.dialogAddWorkspace.mode,
+  page: state.dialogAddWorkspace.page,
+  scrollOffset: state.dialogAddWorkspace.scrollOffset,
   shouldUseDarkColors: state.general.shouldUseDarkColors,
+  totalPage: state.dialogAddWorkspace.totalPage,
 });
 
 const actionCreators = {
   getHits,
   updateMode,
+  updateScrollOffset,
 };
 
 export default connectComponent(
