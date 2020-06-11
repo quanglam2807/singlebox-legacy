@@ -76,7 +76,7 @@ const SearchBox = ({
         color="default"
         className={classes.iconButton}
         aria-label="Clear"
-        onClick={() => onUpdateQuery('')}
+        onClick={() => onUpdateQuery('', true)}
       >
         <CloseIcon fontSize="small" />
       </IconButton>
@@ -98,7 +98,7 @@ const SearchBox = ({
             onKeyDown={(e) => {
               if (e.key === 'Escape') {
                 e.target.blur();
-                onUpdateQuery('');
+                onUpdateQuery('', true);
               }
             }}
             placeholder="Search apps..."

@@ -85,7 +85,7 @@ export const resetThenGetHits = () => (dispatch, getState) => {
 };
 
 let timeout;
-export const updateQuery = (query) => (dispatch) => {
+export const updateQuery = (query, immediate = false) => (dispatch) => {
   dispatch({
     type: ADD_WORKSPACE_UPDATE_QUERY,
     query,
@@ -93,7 +93,7 @@ export const updateQuery = (query) => (dispatch) => {
   clearTimeout(timeout);
   timeout = setTimeout(() => {
     dispatch(resetThenGetHits());
-  }, 500);
+  }, immediate ? 0 : 500);
 };
 
 const getValidationRules = () => ({
