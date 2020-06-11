@@ -43,16 +43,25 @@ export const getHits = () => (dispatch, getState) => {
 
   index.search(currentQuery, {
     page: page + 1,
-    hitsPerPage: 16,
+    hitsPerPage: 12,
   })
-    .then((res) => dispatch({
-      type: ADD_WORKSPACE_GET_SUCCESS,
-      hits: res.hits,
-      page: res.page,
-      totalPage: res.nbPages,
-    }))
+    .then((res) => {
+      // validate to make sure this request is not from older query
+      const currentHome = getState().dialogAddWorkspace;
+      if (currentQuery !== currentHome.currentQuery || page !== currentHome.page) {
+        return;
+      }
+      dispatch({
+        type: ADD_WORKSPACE_GET_SUCCESS,
+        hits: res.hits,
+        page: res.page,
+        totalPage: res.nbPages,
+      });
+    })
     .catch(() => {
-      if (currentQuery !== getState().dialogAddWorkspace.currentQuery) {
+      // validate to make sure this request is not from older query
+      const currentHome = getState().dialogAddWorkspace;
+      if (currentQuery !== currentHome.currentQuery || page !== currentHome.page) {
         return;
       }
       dispatch({
@@ -75,10 +84,17 @@ export const resetThenGetHits = () => (dispatch, getState) => {
   dispatch(getHits());
 };
 
-export const updateQuery = (query) => ({
-  type: ADD_WORKSPACE_UPDATE_QUERY,
-  query,
-});
+let timeout;
+export const updateQuery = (query) => (dispatch) => {
+  dispatch({
+    type: ADD_WORKSPACE_UPDATE_QUERY,
+    query,
+  });
+  clearTimeout(timeout);
+  timeout = setTimeout(() => {
+    dispatch(resetThenGetHits());
+  }, 500);
+};
 
 const getValidationRules = () => ({
   name: {

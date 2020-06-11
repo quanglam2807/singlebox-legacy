@@ -3,16 +3,12 @@ import PropTypes from 'prop-types';
 
 import CloseIcon from '@material-ui/icons/Close';
 import IconButton from '@material-ui/core/IconButton';
-import KeyboardReturnIcon from '@material-ui/icons/KeyboardReturn';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 
 import connectComponent from '../../helpers/connect-component';
 
-import {
-  resetThenGetHits,
-  updateQuery,
-} from '../../state/dialog-add-workspace/actions';
+import { updateQuery } from '../../state/dialog-add-workspace/actions';
 
 const styles = (theme) => ({
   toolbarSearchContainer: {
@@ -71,7 +67,6 @@ const styles = (theme) => ({
 
 const SearchBox = ({
   classes,
-  onResetThenGetHits,
   onUpdateQuery,
   query,
 }) => {
@@ -81,20 +76,9 @@ const SearchBox = ({
         color="default"
         className={classes.iconButton}
         aria-label="Clear"
-        onClick={() => {
-          onUpdateQuery('');
-          onResetThenGetHits();
-        }}
+        onClick={() => onUpdateQuery('')}
       >
         <CloseIcon fontSize="small" />
-      </IconButton>
-      <IconButton
-        color="default"
-        className={classes.iconButton}
-        aria-label="Clear"
-        onClick={onResetThenGetHits}
-      >
-        <KeyboardReturnIcon fontSize="small" />
       </IconButton>
     </>
   );
@@ -112,9 +96,7 @@ const SearchBox = ({
             onChange={(e) => onUpdateQuery(e.target.value)}
             onInput={(e) => onUpdateQuery(e.target.value)}
             onKeyDown={(e) => {
-              if (e.key === 'Enter' && query.length > 0) {
-                onResetThenGetHits();
-              } else if (e.key === 'Escape') {
+              if (e.key === 'Escape') {
                 e.target.blur();
                 onUpdateQuery('');
               }
@@ -141,7 +123,6 @@ SearchBox.defaultProps = {
 
 SearchBox.propTypes = {
   classes: PropTypes.object.isRequired,
-  onResetThenGetHits: PropTypes.func.isRequired,
   onUpdateQuery: PropTypes.func.isRequired,
   query: PropTypes.string,
 };
@@ -151,7 +132,6 @@ const mapStateToProps = (state) => ({
 });
 
 const actionCreators = {
-  resetThenGetHits,
   updateQuery,
 };
 
