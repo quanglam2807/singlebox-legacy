@@ -77,7 +77,6 @@ SubmitAppCard.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-
 export default connectComponent(
   SubmitAppCard,
   null,

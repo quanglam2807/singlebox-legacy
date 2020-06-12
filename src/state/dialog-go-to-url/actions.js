@@ -1,4 +1,3 @@
-
 import { UPDATE_GO_TO_URL_FORM } from '../../constants/actions';
 import hasErrors from '../../helpers/has-errors';
 import isUrl from '../../helpers/is-url';

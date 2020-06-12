@@ -155,7 +155,6 @@ const actionCreators = {
   updateMode,
 };
 
-
 export default connectComponent(
   AppCard,
   null,

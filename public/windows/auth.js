@@ -53,7 +53,6 @@ const create = (id) => {
     ipcMain.removeListener('request-validate-auth-identity', identityValidationListener);
   });
 
-
   ipcMain.on('request-validate-auth-identity', identityValidationListener);
 };
 

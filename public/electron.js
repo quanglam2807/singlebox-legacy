@@ -72,7 +72,6 @@ if (!gotTheLock) {
     });
   };
 
-
   protocol.registerSchemesAsPrivileged([
     { scheme: 'http', privileges: { standard: true } },
     { scheme: 'https', privileges: { standard: true } },
