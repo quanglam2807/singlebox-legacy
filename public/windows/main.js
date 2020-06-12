@@ -138,7 +138,6 @@ const createAsync = () => new Promise((resolve) => {
     return;
   }
 
-
   const { wasOpenedAsHidden } = app.getLoginItemSettings();
 
   const mainWindowState = windowStateKeeper({

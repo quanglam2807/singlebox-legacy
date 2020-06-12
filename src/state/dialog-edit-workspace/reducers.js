@@ -37,5 +37,4 @@ const downloadingIcon = (state = false, action) => {
   }
 };
 
-
 export default combineReducers({ downloadingIcon, form });

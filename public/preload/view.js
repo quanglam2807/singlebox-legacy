@@ -183,7 +183,6 @@ const handleLoaded = (event) => {
           }),
         );
 
-
         menu.popup(remote.getCurrentWindow());
       });
   });

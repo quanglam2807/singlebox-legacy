@@ -1,4 +1,3 @@
-
 import {
   LICENSE_REGISTRATION_FORM_UPDATE,
 } from '../../constants/actions';
@@ -10,7 +9,6 @@ import {
   requestSetPreference,
   requestShowMessageBox,
 } from '../../senders';
-
 
 const getValidationRules = () => ({
   licenseKey: {

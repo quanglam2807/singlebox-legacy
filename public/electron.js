@@ -72,7 +72,6 @@ if (!gotTheLock) {
     });
   };
 
-
   protocol.registerSchemesAsPrivileged([
     { scheme: 'http', privileges: { standard: true } },
     { scheme: 'https', privileges: { standard: true } },
@@ -221,6 +220,9 @@ if (!gotTheLock) {
 
     whenFullyReady()
       .then(() => {
+        // focus on window
+        mainWindow.show();
+
         const workspaces = Object.values(getWorkspaces());
 
         if (workspaces.length < 1) return null;

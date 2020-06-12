@@ -438,7 +438,6 @@ const addView = (browserWindow, workspace) => {
       return;
     }
 
-
     // load in same window
     if (
       // Google: Add account

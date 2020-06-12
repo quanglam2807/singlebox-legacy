@@ -79,7 +79,6 @@ const About = (props) => {
           ))}
         </div>
 
-
         <Button
           onClick={() => requestOpenInBrowser('https://singleboxapp.com?utm_source=singlebox_app')}
         >

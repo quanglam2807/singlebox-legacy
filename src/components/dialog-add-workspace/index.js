@@ -32,7 +32,6 @@ import Form from './form';
 import searchByAlgoliaLightSvg from '../../images/search-by-algolia-light.svg';
 import searchByAlgoliaDarkSvg from '../../images/search-by-algolia-dark.svg';
 
-
 const styles = (theme) => ({
   root: {
     height: '100vh',

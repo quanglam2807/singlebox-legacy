@@ -49,7 +49,6 @@ const setWorkspaceViews = (workspaces) => {
   setViewsNotificationsPref();
 };
 
-
 const wakeUpWorkspaceView = (id) => {
   addView(mainWindow.get(), getWorkspace(id));
   setWorkspace(id, {
