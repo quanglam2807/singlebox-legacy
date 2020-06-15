@@ -64,11 +64,15 @@ if (!gotTheLock) {
   }
 
   // mock app.whenReady
-  const fullyReady = false;
-  const whenFullyReady = () => {
-    if (fullyReady) return Promise.resolve();
+  let trulyReady = false;
+  ipcMain.once('truly-ready', () => { trulyReady = true; });
+  const whenTrulyReady = () => {
+    if (trulyReady) return Promise.resolve();
     return new Promise((resolve) => {
-      ipcMain.once('fully-ready', () => resolve());
+      ipcMain.once('truly-ready', () => {
+        trulyReady = true;
+        resolve();
+      });
     });
   };
 
@@ -160,8 +164,8 @@ if (!gotTheLock) {
         }
       })
       .then(() => {
-        // trigger whenFullyReady
-        ipcMain.emit('fully-ready');
+        // trigger whenTrulyReady
+        ipcMain.emit('truly-ready');
       });
   };
 
@@ -182,7 +186,7 @@ if (!gotTheLock) {
     global.MAILTO_URLS = MAILTO_URLS;
 
     autoUpdater.allowPrerelease = allowPrerelease;
-    whenFullyReady()
+    whenTrulyReady()
       .then(() => {
         ipcMain.emit('request-check-for-updates', null, true);
       });
@@ -218,7 +222,7 @@ if (!gotTheLock) {
   app.on('open-url', (e, url) => {
     e.preventDefault();
 
-    whenFullyReady()
+    whenTrulyReady()
       .then(() => {
         // focus on window
         mainWindow.show();
