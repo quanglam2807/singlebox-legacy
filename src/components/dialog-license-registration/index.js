@@ -54,7 +54,7 @@ const DialogLicenseRegistration = (props) => {
           You are currently running a trial version of Singlebox which only
           lets you add up to two workspaces.
           To remove the trial limitations, please purchase a
-          perpetual license key ($9.99) from our store.
+          perpetual license key ($14.99) from our store.
         </DialogContentText>
         <TextField
           autoFocus
