@@ -4,7 +4,6 @@ import {
   ADD_WORKSPACE_GET_FAILED,
   ADD_WORKSPACE_GET_REQUEST,
   ADD_WORKSPACE_GET_SUCCESS,
-  ADD_WORKSPACE_RESET,
   ADD_WORKSPACE_UPDATE_SCROLL_OFFSET,
   ADD_WORKSPACE_UPDATE_CURRENT_QUERY,
   ADD_WORKSPACE_UPDATE_DOWNLOADING_ICON,
@@ -25,7 +24,7 @@ const hasFailed = (state = false, action) => {
 const hits = (state = [], action) => {
   switch (action.type) {
     case ADD_WORKSPACE_GET_SUCCESS: return state.concat(action.hits);
-    case ADD_WORKSPACE_RESET: return [];
+    case ADD_WORKSPACE_UPDATE_CURRENT_QUERY: return [];
     default: return state;
   }
 };
@@ -35,6 +34,7 @@ const isGetting = (state = false, action) => {
     case ADD_WORKSPACE_GET_FAILED: return false;
     case ADD_WORKSPACE_GET_REQUEST: return true;
     case ADD_WORKSPACE_GET_SUCCESS: return false;
+    case ADD_WORKSPACE_UPDATE_CURRENT_QUERY: return false;
     default: return state;
   }
 };
@@ -42,7 +42,7 @@ const isGetting = (state = false, action) => {
 const page = (state = -1, action) => {
   switch (action.type) {
     case ADD_WORKSPACE_GET_SUCCESS: return action.page;
-    case ADD_WORKSPACE_RESET: return -1;
+    case ADD_WORKSPACE_UPDATE_CURRENT_QUERY: return -1;
     default: return state;
   }
 };
@@ -64,7 +64,7 @@ const query = (state = '', action) => {
 const totalPage = (state = 1, action) => {
   switch (action.type) {
     case ADD_WORKSPACE_GET_SUCCESS: return action.totalPage;
-    case ADD_WORKSPACE_RESET: return 1;
+    case ADD_WORKSPACE_UPDATE_CURRENT_QUERY: return 1;
     default: return state;
   }
 };
@@ -99,6 +99,7 @@ const downloadingIcon = (state = false, action) => {
 const scrollOffset = (state = 0, action) => {
   switch (action.type) {
     case ADD_WORKSPACE_UPDATE_SCROLL_OFFSET: return action.scrollOffset;
+    case ADD_WORKSPACE_UPDATE_CURRENT_QUERY: return 0;
     default: return state;
   }
 };

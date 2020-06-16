@@ -4,7 +4,6 @@ import {
   ADD_WORKSPACE_GET_FAILED,
   ADD_WORKSPACE_GET_REQUEST,
   ADD_WORKSPACE_GET_SUCCESS,
-  ADD_WORKSPACE_RESET,
   ADD_WORKSPACE_UPDATE_SCROLL_OFFSET,
   ADD_WORKSPACE_UPDATE_CURRENT_QUERY,
   ADD_WORKSPACE_UPDATE_DOWNLOADING_ICON,
@@ -74,9 +73,6 @@ export const resetThenGetHits = () => (dispatch, getState) => {
   const state = getState();
   const { query } = state.dialogAddWorkspace;
 
-  dispatch({
-    type: ADD_WORKSPACE_RESET,
-  });
   dispatch({
     type: ADD_WORKSPACE_UPDATE_CURRENT_QUERY,
     currentQuery: query,
