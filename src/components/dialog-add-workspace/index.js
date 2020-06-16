@@ -200,7 +200,7 @@ const AddWorkspace = ({
       <InfiniteLoader
         isItemLoaded={isItemLoaded}
         itemCount={hits.length + 1}
-        loadMoreItems={onGetHits}
+        loadMoreItems={() => onGetHits()}
       >
         {({ onItemsRendered, ref }) => (
           <FixedSizeList
