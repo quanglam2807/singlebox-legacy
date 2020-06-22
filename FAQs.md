@@ -2,7 +2,7 @@
 Even though previous versions of Singlebox are no longer officially supported, you can still download them from [here](https://github.com/atomery/singlebox/releases).
 
 ##### Does Singlebox support Amazon Music, Amazon Prime Video, BBC iPlayer, Hulu, Netflix and Spotify?
-Yes, it does, but only with non-Electron browser engines. We would love to support these apps with Electron. But they rely on a technology called [WidevineDRM](https://en.wikipedia.org/wiki/Widevine) which is not available for Electron because of technical and legal constraints [\[1\]](https://electronjs.org/docs/tutorial/testing-widevine-cdm) [\[2\]](https://www.theregister.co.uk/2019/04/03/googles_widevine_drm/).
+No, it does not. We would love to support these web apps. But they rely on a technology called [WidevineDRM](https://en.wikipedia.org/wiki/Widevine) which is not available for Electron because of technical and legal constraints [\[1\]](https://electronjs.org/docs/tutorial/testing-widevine-cdm) [\[2\]](https://www.theregister.co.uk/2019/04/03/googles_widevine_drm/).
 
 ##### Is Singlebox open source?
 Yes, you can find the source code on [GitHub](https://github.com/atomery/singlebox) under the MPL-2 license.
