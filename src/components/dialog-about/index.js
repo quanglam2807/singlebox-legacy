@@ -9,6 +9,8 @@ import connectComponent from '../../helpers/connect-component';
 
 import { requestOpenInBrowser } from '../../senders';
 
+import iconPng from '../../images/singlebox-icon.png';
+
 const styles = (theme) => ({
   icon: {
     height: 96,
@@ -60,7 +62,7 @@ const About = (props) => {
   return (
     <div>
       <DialogContent className={classes.dialogContent}>
-        <img src={`file://${window.iconPath}`} alt="Singlebox" className={classes.icon} />
+        <img src={iconPng} alt="Singlebox" className={classes.icon} />
         <Typography variant="h6" className={classes.title}>Singlebox</Typography>
         <Typography
           variant="body2"
