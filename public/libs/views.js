@@ -365,6 +365,7 @@ const addView = (browserWindow, workspace) => {
 
     if (workspaceObj.active) {
       sendToAllWindows('update-title', title);
+      browserWindow.setTitle(title);
     }
   });
 
@@ -669,6 +670,7 @@ const setActiveView = (browserWindow, id) => {
 
     sendToAllWindows('update-address', view.webContents.getURL(), false);
     sendToAllWindows('update-title', view.webContents.getTitle());
+    browserWindow.setTitle(view.webContents.getTitle());
   }
 };
 
