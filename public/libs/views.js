@@ -275,7 +275,9 @@ const addView = (browserWindow, workspace) => {
     const handleFocus = () => {
       // focus on webview
       // https://github.com/quanglam2807/webcatalog/issues/398
-      view.webContents.focus();
+      if (browserWindow.isFocused()) {
+        view.webContents.focus();
+      }
       view.webContents.removeListener('did-stop-loading', handleFocus);
     };
     view.webContents.on('did-stop-loading', handleFocus);
@@ -666,7 +668,9 @@ const setActiveView = (browserWindow, id) => {
 
     // focus on webview
     // https://github.com/quanglam2807/webcatalog/issues/398
-    view.webContents.focus();
+    if (browserWindow.isFocused()) {
+      view.webContents.focus();
+    }
 
     sendToAllWindows('update-address', view.webContents.getURL(), false);
     sendToAllWindows('update-title', view.webContents.getTitle());
