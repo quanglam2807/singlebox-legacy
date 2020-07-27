@@ -49,7 +49,11 @@ function createMenu() {
         { role: 'cut' },
         { role: 'copy' },
         { role: 'paste' },
-        { role: 'pasteandmatchstyle' },
+        {
+          role: 'pasteandmatchstyle',
+          // by default, it's 'Alt+Shift+CmdOrCtrl+F'
+          accelerator: 'Shift+CmdOrCtrl+F',
+        },
         { role: 'delete' },
         { role: 'selectall' },
         { type: 'separator' },
