@@ -22,11 +22,11 @@ jobs:
 
     steps:
     - name: Get juli version
-      run: echo ::set-env name=JULI_VERSION::${cat juli_version $1}
+      run: echo ::set-env name=JULI_VERSION::$(cat juli-version $1)
     - uses: actions/checkout@v2
       with:
         repository: 'atomery/juli'
-        ref: ${{ env.JULI_VERSION }}
+        ref: v${{ env.JULI_VERSION }}
         path: 'juli'
         fetch-depth: 1
         submodules: false
