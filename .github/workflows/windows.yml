@@ -22,7 +22,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Get juli version
-      run: echo ::set-env name=JULI_VERSION::$(cat juli-version $1)
+      run: echo ::set-env name=JULI_VERSION::$(type juli-version)
     - uses: actions/checkout@v2
       with:
         repository: 'atomery/juli'
