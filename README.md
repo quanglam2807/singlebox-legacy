@@ -24,17 +24,6 @@ On the other hand, **the source code is freely available** for use, modification
 ---
 
 ## Development
-```
-# First, clone the project:
-git clone https://github.com/atomery/singlebox.git
-cd singlebox
-
-# install the dependencies
-yarn
-
-# Run development mode
-yarn electron-dev
-
-# Build for production
-yarn dist
-```
+The development is unified with the [WebCatalog](https://atomery.com/webcatalog) project. Check out:
+- [atomery/juli](https://github.com/atomery/juli) repo for the code
+- [atomery/webcatalog](https://github.com/atomery/webcatalog/issues) repo for bug reports & feature requests
