@@ -54,9 +54,9 @@ jobs:
     - name: Get tag name
       run: echo ::set-env name=CI_BUILD_TAG::${GITHUB_REF/refs\/tags\//}
       # if: startsWith(github.ref, 'refs/tags/')
-    - run:
-        - cd juli
-        - yarn singlebox:build-singlebox
+    - run: |
+        cd juli
+        yarn singlebox:build-singlebox
       env:
         CI: true
         CI_PULL_REQUEST: ${{ github.event_name == 'pull_request' }}
