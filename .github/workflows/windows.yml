@@ -30,10 +30,6 @@ jobs:
         path: 'juli'
         fetch-depth: 1
         submodules: false
-    - name: Install Snapcraft
-      uses: samuelmeuli/action-snapcraft@v1
-      with:
-        snapcraft_token: ${{ secrets.SNAP_TOKEN }}
     - name: Set up Node.js
       uses: actions/setup-node@v1
       with:
