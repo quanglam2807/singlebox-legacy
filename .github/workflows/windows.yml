@@ -1,4 +1,4 @@
-name: Linux
+name: Windows
 
 on:
   push:
@@ -12,19 +12,21 @@ on:
   pull_request:
     branches:
       - master
-    paths-ignore:
-      - 'catalog/**'
-      - 'docs/**'
+    paths:
+      - '.github/workflows/windows.yml'
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
 
     steps:
     - uses: actions/checkout@v2
+    - name: Get juli version
+      run: echo ::set-env name=JULI_VERSION::$(cat juli-version $1)
+    - uses: actions/checkout@v2
       with:
         repository: 'atomery/juli'
-        ref: 'v9.0.0-alpha'
+        ref: v${{ env.JULI_VERSION }}
         path: 'juli'
         fetch-depth: 1
         submodules: false
@@ -47,12 +49,15 @@ jobs:
         key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
         restore-keys: |
           ${{ runner.os }}-yarn-
-    - run: yarn --prefer-offline
-    - run: yarn lint
     - name: Get tag name
       run: echo ::set-env name=CI_BUILD_TAG::${GITHUB_REF/refs\/tags\//}
       if: startsWith(github.ref, 'refs/tags/')
-    - run: yarn dist
+    - name: Build Singlebox
+      run: |
+        cd juli
+        yarn --prefer-offline
+        yarn lint
+        yarn singlebox:dist
       env:
         CI: true
         CI_PULL_REQUEST: ${{ github.event_name == 'pull_request' }}
