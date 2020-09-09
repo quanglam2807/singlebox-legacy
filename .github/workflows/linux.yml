@@ -56,7 +56,7 @@ jobs:
     - name: Build Singlebox
       run: |
         cd juli
-        yarn --prefer-offline
+        yarn --prefer-offline --network-timeout 600000
         yarn lint
         yarn singlebox:dist
       env:
